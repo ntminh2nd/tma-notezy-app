@@ -33,6 +33,18 @@ module.exports = {
       }
     );
   },
+  getUserByEmail: (email, callBack) => {
+    pool.query(
+      `select * from users where email = ?`,
+      [email],
+      (error, results, fields) => {
+        if (error) {
+          callBack(error);
+        }
+        return callBack(null, results[0]);
+      }
+    );
+  },
   updateUser: (id, data, callBack) => {
     pool.query(
       `update users set full_name = ?, email = ?, password = ? where id = ?`,
