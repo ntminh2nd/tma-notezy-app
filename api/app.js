@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const userRouter = require("./users/user.router");
+const noteRouter = require("./notes/note.router");
 
 require("dotenv").config();
 
@@ -13,6 +14,7 @@ require("dotenv").config();
 
 app.use(express.json());
 app.use("/api/users", userRouter);
+app.use("/api/notes", noteRouter);
 
 let port = process.env.APP_PORT;
 
