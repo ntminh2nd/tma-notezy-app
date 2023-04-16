@@ -16,7 +16,7 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/notes", noteRouter);
 
-let port = process.env.APP_PORT;
+let port = process.env.PORT;
 
 app.listen(port, () => {
   console.log("Server is running on:", port);
