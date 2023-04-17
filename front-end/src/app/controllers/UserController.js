@@ -1,5 +1,5 @@
 // Imports
-import UserModelAuth from "../models/UserModel";
+import UserModelAuth from "../models/userModel";
 
 const userModelAuth = new UserModelAuth();
 
