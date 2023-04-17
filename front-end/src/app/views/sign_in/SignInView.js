@@ -1,6 +1,12 @@
+// Dependencies
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import AuthController from "./authController";
+
+// Imports
+// User controller
+import UserControllerAuth from "../../controllers/UserController";
+
+const userControllerAuth = new UserControllerAuth();
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -9,11 +15,10 @@ function SignIn() {
 
   const handleSignIn = (event) => {
     event.preventDefault();
-    AuthController.signInUser(email, password, (err, data) => {
+    userControllerAuth.signInUser(email, password, (err, data) => {
       if (err) {
-        setError("Invalid email or password");
+        console.log(err);
       } else {
-        // Handle success response, such as storing the token in local storage
         console.log(data);
       }
     });
