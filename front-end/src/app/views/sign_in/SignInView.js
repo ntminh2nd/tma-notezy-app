@@ -1,5 +1,6 @@
-// Dependencies
 import React, { useState } from "react";
+
+// Dependencies
 import { Form, Button } from "react-bootstrap";
 
 // Imports
@@ -38,7 +39,6 @@ function SignIn() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control

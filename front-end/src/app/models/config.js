@@ -1,5 +1,4 @@
-// Dependencies
-require("dotenv").config();
+const API = "https://tma-ntminh-notezy.cyclic.app/api";
 
-export const API_USER = process.env.API + "/users";
-export const API_NOTES = process.env.API + "/notes";
+export const API_USER = API + "/users";
+export const API_NOTES = API + "/notes";

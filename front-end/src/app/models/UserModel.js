@@ -1,5 +1,5 @@
 // Dependencies
-const axios = require("axios");
+import axios from "axios";
 
 // Imports
 const api = require("./config").API_USER;

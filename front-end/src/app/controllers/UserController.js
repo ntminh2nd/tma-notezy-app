@@ -1,5 +1,5 @@
 // Imports
-import UserModelAuth from "../models/userModel";
+import UserModelAuth from "../models/UserModel";
 
 const userModelAuth = new UserModelAuth();
 
@@ -8,11 +8,9 @@ class UserControllerAuth {
   signInUser(email, password, callback) {
     try {
       validateEmail(email);
-      validatePassword(password);
       userModelAuth
         .signInUserAPI(email, password)
         .then((response) => {
-          console.log("Sign in successfully.");
           callback(null, response.data);
         })
         .catch((error) => {
@@ -33,10 +31,10 @@ function validateEmail(email) {
 }
 
 // Password validation
-function validatePassword(password) {
-  if (password.length < 8) {
-    throw new Error("Password must be at least 8 characters long");
-  }
-}
+// function validatePassword(password) {
+//   if (password.length < 8) {
+//     throw new Error("Password must be at least 8 characters long");
+//   }
+// }
 
 export default UserControllerAuth;
