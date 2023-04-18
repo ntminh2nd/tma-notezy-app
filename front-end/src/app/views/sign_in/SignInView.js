@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Dependencies
-import { Form, Button, Row, Col, Alert } from "react-bootstrap";
+import { Form, Button, Row, Col, Alert, Spinner } from "react-bootstrap";
 
 // Imports
 // Bootstrap configuration
@@ -16,9 +16,11 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [formError, setFormError] = useState("");
   const [callbackError, setCallbackError] = useState("");
+  const [isSigningIn, setIsSigningIn] = useState(false);
 
 const handleSignIn = async (event) => {
   event.preventDefault();
+  setIsSigningIn(true);
   try {
     const response = await new Promise((resolve, reject) => {
       userControllerAuth.signInUser(email, password, (err, data) => {
@@ -32,12 +34,14 @@ const handleSignIn = async (event) => {
     console.log(response);
     if (response.success == 0) {
       setCallbackError(response.message);
+      setIsSigningIn(false);
     }
     else {
       setCallbackError("");
     }
   } catch (error) {
     setCallbackError(error);
+    setIsSigningIn(false);
   }
 };
 
@@ -64,6 +68,7 @@ const handleSignIn = async (event) => {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSigningIn}
                 />
               </Col>
             </Form.Group>
@@ -78,6 +83,7 @@ const handleSignIn = async (event) => {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={isSigningIn}
                 />
               </Col>
             </Form.Group>
@@ -88,8 +94,15 @@ const handleSignIn = async (event) => {
               </Alert>
             )}
 
-            <Button variant="primary" type="submit">
-              Sign in
+            <Button variant={isSigningIn ? "secondary" : "primary"} type="submit" disabled={isSigningIn}>
+              {isSigningIn ? (
+                <>
+                  <Spinner animation="border" size="sm" />
+                  <span className="ms-2">Signing in...</span>
+                </>
+              ) : (
+                "Sign in"
+              )}
             </Button>
           </Form>
         </div>
