@@ -11,7 +11,7 @@ module.exports = {
         if (error) {
           res.json({
             success: 0,
-            message: "Invalid token.",
+            message: "Token hết hạn hoặc không hợp lệ.",
           });
         } else {
           next();
@@ -20,7 +20,7 @@ module.exports = {
     } else {
       res.json({
         success: 0,
-        message: "Access denied. User unautorized.",
+        message: "Không thể truy cập vì chưa xác thực.",
       });
     }
   },
