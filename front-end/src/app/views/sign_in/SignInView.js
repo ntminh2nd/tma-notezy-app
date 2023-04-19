@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 
 // Dependencies
-import { Form, Button, Row, Col, Alert, Spinner } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Row,
+  Col,
+  Alert,
+  Spinner,
+  FormControl,
+  InputGroup,
+  Icon,
+} from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 // Imports
 // Bootstrap configuration
@@ -17,6 +29,7 @@ function SignIn() {
   const [formError, setFormError] = useState("");
   const [callbackError, setCallbackError] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const [showPassword, toggleShowPassword] = useState(false);
 
   const handleSignIn = async (event) => {
     event.preventDefault();
@@ -77,11 +90,16 @@ function SignIn() {
               </Form.Label>
               <Col sm="6" style={{ width: "100%" }}>
                 <Form.Control
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  disabled={isSigningIn}
+                  className="password-input"
+                />
+                <FontAwesomeIcon
+                  icon={showPassword ? faEyeSlash : faEye}
+                  className="password-icon"
+                  onClick={toggleShowPassword}
                 />
               </Col>
             </Form.Group>
