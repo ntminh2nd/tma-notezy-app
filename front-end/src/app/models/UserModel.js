@@ -2,7 +2,8 @@
 import axios from "axios";
 
 // Imports
-const api = require("./modelsConfig").API_USER;
+const api = require("./modelsConfig").API_USER_LOCAL;
+// const api = require("./modelsConfig").API_USER;
 
 class UserModelAuth {
   signInUserAPI(email, password) {
