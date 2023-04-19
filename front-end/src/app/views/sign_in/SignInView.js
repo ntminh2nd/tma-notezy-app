@@ -18,34 +18,32 @@ function SignIn() {
   const [callbackError, setCallbackError] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
 
-const handleSignIn = async (event) => {
-  event.preventDefault();
-  setIsSigningIn(true);
-  try {
-    const response = await new Promise((resolve, reject) => {
-      userControllerAuth.signInUser(email, password, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
+  const handleSignIn = async (event) => {
+    event.preventDefault();
+    setIsSigningIn(true);
+    setCallbackError("");
+    try {
+      const response = await new Promise((resolve, reject) => {
+        userControllerAuth.signInUser(email, password, (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
       });
-    });
-    console.log(response);
-    if (response.success == 0) {
-      setCallbackError(response.message);
+      console.log(response);
+      if (response.success === 0) {
+        setCallbackError(response.message);
+        setIsSigningIn(false);
+      } else {
+        setCallbackError("");
+      }
+    } catch (error) {
+      setCallbackError(error);
       setIsSigningIn(false);
     }
-    else {
-      setCallbackError("");
-    }
-  } catch (error) {
-    setCallbackError(error);
-    setIsSigningIn(false);
-  }
-};
-
-
+  };
 
   return (
     <div className="d-flex vh-100 justify-content-center align-items-center">
@@ -94,16 +92,31 @@ const handleSignIn = async (event) => {
               </Alert>
             )}
 
-            <Button variant={isSigningIn ? "secondary" : "primary"} type="submit" disabled={isSigningIn}>
-              {isSigningIn ? (
-                <>
-                  <Spinner animation="border" size="sm" />
-                  <span className="ms-2">Signing in...</span>
-                </>
-              ) : (
-                "Sign in"
+            <div className="d-flex justify-content-between">
+              <Button
+                variant={isSigningIn ? "secondary" : "primary"}
+                type="submit"
+                disabled={isSigningIn}
+              >
+                {isSigningIn ? (
+                  <>
+                    <Spinner animation="border" size="sm" />
+                    <span className="ms-2">Signing in...</span>
+                  </>
+                ) : (
+                  "Sign in"
+                )}
+              </Button>
+
+              {isSigningIn ? null : (
+                <div>
+                  <span>Don't have an account yet? </span>
+                  <span className="create-account">
+                    <a href="#">Create here</a>
+                  </span>
+                </div>
               )}
-            </Button>
+            </div>
           </Form>
         </div>
       </div>

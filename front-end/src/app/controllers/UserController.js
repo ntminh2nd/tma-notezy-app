@@ -6,28 +6,29 @@ const userModelAuth = new UserModelAuth();
 class UserControllerAuth {
   // Sign in
   signInUser(email, password, callback) {
-    try {
-      validateEmail(email);
-      userModelAuth
-        .signInUserAPI(email, password)
-        .then((response) => {
-          callback(null, response.data);
-        })
-        .catch((error) => {
-          // Handle error response
-          callback(error.response.data.error);
-        });
-    } catch (error) {
-      callback(error);
+    const emailError = checkNullEmailPassword(email, password);
+    if (emailError) {
+      return callback(emailError);
     }
+
+    userModelAuth
+      .signInUserAPI(email, password)
+      .then((response) => {
+        callback(null, response.data);
+      })
+      .catch((error) => {
+        // Handle error response
+        callback(error.response.data.error);
+      });
   }
 }
 
-// Email validation
-function validateEmail(email) {
-  if (!/\S+@\S+\.\S+/.test(email)) {
-    throw new Error("Invalid email");
+// Email and password null validation
+function checkNullEmailPassword(email, password) {
+  if (email === null || email === "" || password === null || password === "") {
+    return "Email and password must not be empty.";
   }
+  return null;
 }
 
 // Password validation
