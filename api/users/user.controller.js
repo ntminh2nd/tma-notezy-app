@@ -22,7 +22,7 @@ module.exports = {
         console.log(error);
         return res.status(500).json({
           success: 0,
-          message: "Database connection error.",
+          message: "Không thể kết nối với database.",
         });
       }
       return res.status(200).json({
@@ -41,7 +41,7 @@ module.exports = {
       if (!results) {
         return res.json({
           success: 0,
-          message: "User not found.",
+          message: "Không tìm thấy người dùng.",
         });
       }
       return res.json({
@@ -74,7 +74,7 @@ module.exports = {
       }
       return res.json({
         success: 1,
-        message: "User updated successfully.",
+        message: "Cập nhật dữ liệu người dùng thành công.",
       });
     });
   },
@@ -88,7 +88,7 @@ module.exports = {
       }
       return res.json({
         success: 1,
-        message: "User deleted successfully.",
+        message: "Xóa người dùng thành công.",
       });
     });
   },
@@ -101,7 +101,7 @@ module.exports = {
       if (!results) {
         return res.json({
           success: 0,
-          message: "Invalid email or password.",
+          message: "Email hoặc mật khẩu không chính xác.",
         });
       }
       const result = compareSync(body.password, results.password);
@@ -112,13 +112,13 @@ module.exports = {
         });
         return res.json({
           success: 1,
-          message: "Login successfully.",
+          message: "Đăng nhập thành công.",
           token: jsonToken,
         });
       } else {
         return res.json({
           success: 0,
-          message: "Invalid email or password.",
+          message: "Email hoặc mật khẩu không chính xác.",
         });
       }
     });

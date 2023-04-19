@@ -26,7 +26,7 @@ class UserControllerAuth {
 // Email and password null validation
 function checkNullEmailPassword(email, password) {
   if (email === null || email === "" || password === null || password === "") {
-    return "Email and password must not be empty.";
+    return "Email và mật khẩu không được bỏ trống.";
   }
   return null;
 }

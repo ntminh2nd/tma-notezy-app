@@ -29,7 +29,7 @@ function SignIn() {
   const [formError, setFormError] = useState("");
   const [callbackError, setCallbackError] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const [showPassword, toggleShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = async (event) => {
     event.preventDefault();
@@ -58,60 +58,80 @@ function SignIn() {
     }
   };
 
+  function toggleShowPassword() {
+    setShowPassword(!showPassword);
+  }
+
+  const validateEmail = (input) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (input && !emailRegex.test(input)) {
+      return "Vui lòng nhập email hợp lệ";
+    }
+  };
+
   return (
     <div className="d-flex vh-100 justify-content-center align-items-center">
       <div className="d-flex flex-column">
-        <h1 className="mb-5">
-          Welcome to <span className="aero-bg">Notezy</span>! 📝
+        <h1 className="mb-5 unselectable-text">
+          Chào mừng đến với <span className="aero-bg">Notezy</span>! 📝
           <br />
-          <span className="aero-bg">Sign in</span> to continue.
+          <span className="aero-bg">Đăng nhập</span> để bắt đầu.
         </h1>
         <div className="login-form">
           <Form onSubmit={handleSignIn}>
-            {formError && <div className="alert alert-danger">{formError}</div>}
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label className="fw-bold" column>
-                Email address
+              <Form.Label className="fw-bold unselectable-text" column>
+                Địa chỉ email
               </Form.Label>
               <Col sm="6" style={{ width: "100%" }}>
                 <Form.Control
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Nhập email của bạn"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isSigningIn}
+                  isInvalid={validateEmail(email)}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {validateEmail(email)}
+                </Form.Control.Feedback>
               </Col>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label className="fw-bold" column>
-                Password
+              <Form.Label className="fw-bold unselectable-text" column>
+                Mật khẩu
               </Form.Label>
-              <Col sm="6" style={{ width: "100%" }}>
+              <div className="d-flex align-items-center password-input">
                 <Form.Control
                   type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="Nhập mật khẩu của bạn"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="password-input"
+                  style={{ width: "100%" }}
                 />
                 <FontAwesomeIcon
                   icon={showPassword ? faEyeSlash : faEye}
-                  className="password-icon"
+                  className="password-icon ms-2"
                   onClick={toggleShowPassword}
                 />
-              </Col>
+              </div>
             </Form.Group>
 
             {callbackError && (
-              <Alert key={"danger"} variant={"danger"}>
+              <Alert
+                className="unselectable-text"
+                key={"danger"}
+                variant={"danger"}
+              >
                 {callbackError}
               </Alert>
             )}
 
             <div className="d-flex justify-content-between">
               <Button
+                className="unselectable-text"
                 variant={isSigningIn ? "secondary" : "primary"}
                 type="submit"
                 disabled={isSigningIn}
@@ -119,18 +139,18 @@ function SignIn() {
                 {isSigningIn ? (
                   <>
                     <Spinner animation="border" size="sm" />
-                    <span className="ms-2">Signing in...</span>
+                    <span className="ms-2">Đang đăng nhập...</span>
                   </>
                 ) : (
-                  "Sign in"
+                  "Đăng nhập"
                 )}
               </Button>
 
               {isSigningIn ? null : (
-                <div>
-                  <span>Don't have an account yet? </span>
+                <div className="unselectable-text">
+                  <span>Bạn chưa có tài khoản? </span>
                   <span className="create-account">
-                    <a href="#">Create here</a>
+                    <a href="#">Tạo mới ở đây</a>
                   </span>
                 </div>
               )}
