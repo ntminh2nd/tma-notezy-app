@@ -6,9 +6,9 @@ const userModelAuth = new UserModelAuth();
 class UserControllerAuth {
   // Sign in
   signInUser(email, password, callback) {
-    const emailError = checkNullEmailPassword(email, password);
-    if (emailError) {
-      return callback(emailError);
+    const error = checkInputFields(email, password);
+    if (error) {
+      return callback(error);
     }
 
     userModelAuth
@@ -21,21 +21,39 @@ class UserControllerAuth {
         callback(error.response.data.error);
       });
   }
+  // Create user
+  createUser(name, email, password, callback) {
+    const error = checkInputFields(email, password, name);
+    if (error) {
+      return callback(error);
+    }
+
+    userModelAuth
+      .createUserAPI(name, email, password)
+      .then((response) => {
+        callback(null, response.data);
+      })
+      .catch((error) => {
+        // Handle error response
+        callback(error.response.data.error);
+      });
+  }
 }
 
-// Email and password null validation
-function checkNullEmailPassword(email, password) {
-  if (email === null || email === "" || password === null || password === "") {
-    return "Email và mật khẩu không được bỏ trống.";
+// Null or empty input fields validation
+function checkInputFields(email, password, name = null) {
+  let fields = [email, password];
+  let fieldNames = ["Email", "Mật khẩu"];
+  if (name !== null) {
+    fields.unshift(name);
+    fieldNames.unshift("Tên");
+  }
+  for (let i = 0; i < fields.length; i++) {
+    if (fields[i] === null || fields[i] === "") {
+      return `${fieldNames[i]} không được bỏ trống.`;
+    }
   }
   return null;
 }
-
-// Password validation
-// function validatePassword(password) {
-//   if (password.length < 8) {
-//     throw new Error("Password must be at least 8 characters long");
-//   }
-// }
 
 export default UserControllerAuth;

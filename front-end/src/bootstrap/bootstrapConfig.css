@@ -22,8 +22,8 @@
   color: var(--blizzard-blue);
 }
 
-/* Login form */
-.login-form {
+/* Login, create user form */
+.form {
   background-color: var(--blizzard-blue);
   padding: 20px;
   border: 1px solid var(--aero);
