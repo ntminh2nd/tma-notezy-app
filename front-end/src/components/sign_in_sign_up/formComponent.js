@@ -113,124 +113,45 @@ function FormComponent(props) {
   const handlePasswordConfirm = (event) => {
     const value = event.target.value;
     setPasswordRetype(value);
-    setValidPasswordConfirm(validateConfirmPassword(value, password));
-  };
-
-  const validateConfirmPassword = (toConfirm, password = "") => {
-    if (toConfirm !== password) {
-      return "Mật khẩu không trùng khớp";
-    } else {
-      return undefined;
-    }
-  };
-
-  // Views
-  // Sign in view
-  const renderSignInView = (confirmButtonLabel, question, hyperlinkText) => {
-    return (
-      <div className="form">
-        <Form onSubmit={handleSignIn}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label className="fw-bold unselectable-text" column>
-              Địa chỉ email
-            </Form.Label>
-            <Col sm="6" style={{ width: "100%" }}>
-              <Form.Control
-                type="email"
-                placeholder="Nhập email của bạn"
-                value={email}
-                onChange={handleEmailInput}
-                disabled={isProcessing}
-                isInvalid={!validEmail}
-              />
-              <Form.Control.Feedback type="invalid">
-                {validateEmail(email)}
-              </Form.Control.Feedback>
-            </Col>
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label className="fw-bold unselectable-text" column>
-              Mật khẩu
-            </Form.Label>
-            <div className="d-flex align-items-center password-input">
-              <Form.Control
-                type={showPassword ? "text" : "password"}
-                placeholder="Nhập mật khẩu của bạn"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={isProcessing}
-                className="password-input"
-                style={{ width: "100%" }}
-                bsPrefix=""
-              />
-            </div>
-          </Form.Group>
-
-          {callbackError && (
-            <Alert
-              className="unselectable-text"
-              key={"danger"}
-              variant={"danger"}
-            >
-              {callbackError}
-            </Alert>
-          )}
-
-          <div className="d-flex justify-content-between">
-            <Button
-              className="unselectable-text"
-              variant={isProcessing ? "secondary" : "primary"}
-              type="submit"
-              disabled={isProcessing}
-            >
-              {isProcessing ? (
-                <>
-                  <Spinner animation="border" size="sm" />
-                  <span className="ms-2">Đang đăng nhập...</span>
-                </>
-              ) : (
-                confirmButtonLabel
-              )}
-            </Button>
-
-            {isProcessing ? null : (
-              <div className="unselectable-text">
-                <span>{question}</span>
-                <span className="create-account">
-                  <a href="#">{hyperlinkText}</a>
-                </span>
-              </div>
-            )}
-          </div>
-        </Form>
-      </div>
+    setValidPasswordConfirm(
+      validateConfirmPassword(value, password) === undefined
     );
   };
 
-  // Create user view
-  const renderCreateUserView = (
+  const validateConfirmPassword = (toConfirm, password = "") => {
+    const match = toConfirm.match(new RegExp(`^${password}$`, "i"));
+    if (!match) {
+      return "Mật khẩu không trùng khớp";
+    }
+  };
+
+  // Render views
+  const renderFormView = (
+    isLoginPage,
     confirmButtonLabel,
+    confirmButtonProcessingLabel,
     question,
     hyperlinkText
   ) => {
     return (
       <div className="form">
-        <Form onSubmit={handleCreateUser}>
-          <Form.Group className="mb-3" controlId="nameInput">
-            <Form.Label className="fw-bold unselectable-text" column>
-              Họ và tên
-            </Form.Label>
-            <Col sm="6" style={{ width: "100%" }}>
-              <Form.Control
-                type="text"
-                placeholder="Nhập tên của bạn"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={isProcessing}
-              />
-            </Col>
-          </Form.Group>
+        <Form onSubmit={!isLoginPage ? handleCreateUser : handleSignIn}>
+          {!isLoginPage ? (
+            <Form.Group className="mb-3" controlId="nameInput">
+              <Form.Label className="fw-bold unselectable-text" column>
+                Họ và tên
+              </Form.Label>
+              <Col sm="6" style={{ width: "100%" }}>
+                <Form.Control
+                  type="text"
+                  placeholder="Nhập tên của bạn"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={isProcessing}
+                />
+              </Col>
+            </Form.Group>
+          ) : null}
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label className="fw-bold unselectable-text" column>
               Địa chỉ email
@@ -263,7 +184,9 @@ function FormComponent(props) {
                 className="password-input"
                 style={{ width: "100%" }}
                 bsPrefix=""
-                isInvalid={!validPassword && password.length > 0}
+                isInvalid={
+                  !isLoginPage ? !validPassword && password.length > 0 : null
+                }
               />
               <Form.Control.Feedback type="invalid">
                 {validatePassword(password)}
@@ -271,27 +194,30 @@ function FormComponent(props) {
             </Col>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label className="fw-bold unselectable-text" column>
-              Nhập lại mật khẩu
-            </Form.Label>
-            <Col sm="6" style={{ width: "100%" }}>
-              <Form.Control
-                type={showPasswordRetype ? "text" : "password"}
-                placeholder="Nhập lại mật khẩu của bạn"
-                value={passwordRetype}
-                onChange={handlePasswordConfirm}
-                disabled={isProcessing}
-                className="password-input"
-                style={{ width: "100%" }}
-                bsPrefix=""
-                isInvalid={!validPasswordConfirm && passwordRetype.length > 0}
-              />
-              <Form.Control.Feedback type="invalid">
-                {validateConfirmPassword(passwordRetype, password)}
-              </Form.Control.Feedback>
-            </Col>
-          </Form.Group>
+          {!isLoginPage ? (
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label className="fw-bold unselectable-text" column>
+                Nhập lại mật khẩu
+              </Form.Label>
+              <Col sm="6" style={{ width: "100%" }}>
+                <Form.Control
+                  type={showPasswordRetype ? "text" : "password"}
+                  placeholder="Nhập lại mật khẩu của bạn"
+                  value={passwordRetype}
+                  onChange={handlePasswordConfirm}
+                  disabled={isProcessing}
+                  className="password-input"
+                  style={{ width: "100%" }}
+                  bsPrefix=""
+                  isInvalid={!validPasswordConfirm && password.length > 0}
+                  isValid={validPasswordConfirm && passwordRetype.length > 0}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {validateConfirmPassword(passwordRetype, password)}
+                </Form.Control.Feedback>
+              </Col>
+            </Form.Group>
+          ) : null}
 
           {callbackError && (
             <Alert
@@ -314,7 +240,7 @@ function FormComponent(props) {
                 {isProcessing ? (
                   <>
                     <Spinner animation="border" size="sm" />
-                    <span className="ms-2">Đang tạo tài khoản...</span>
+                    <span className="ms-2">{confirmButtonProcessingLabel}</span>
                   </>
                 ) : (
                   confirmButtonLabel
@@ -340,13 +266,17 @@ function FormComponent(props) {
   return (
     <div>
       {isLoginPage === true
-        ? renderSignInView(
+        ? renderFormView(
+            isLoginPage,
             "Đăng nhập",
+            "Đang đăng nhập...",
             "Bạn chưa có tài khoản? ",
             "Tạo mới ở đây"
           )
-        : renderCreateUserView(
+        : renderFormView(
+            isLoginPage,
             "Tạo tài khoản",
+            "Đang tạo tài khoản...",
             "Bạn đã có tài khoản? ",
             "Đăng nhập ở đây"
           )}

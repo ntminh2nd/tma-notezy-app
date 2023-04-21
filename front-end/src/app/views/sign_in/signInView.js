@@ -21,7 +21,7 @@ function SignIn() {
         <GreetingComponent {...greetingProps} />
       </div>
       <div className="form_right">
-        <FormComponent isLoginPage={false} />
+        <FormComponent isLoginPage={true} />
       </div>
     </div>
   );
