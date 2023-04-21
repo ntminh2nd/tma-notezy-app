@@ -25,30 +25,58 @@
 /* Login, create user form */
 .form {
   background-color: var(--blizzard-blue);
-  padding: 20px;
-  border: 1px solid var(--aero);
+  padding: 30px;
+  border: 3px solid var(--aero);
   border-radius: 10px;
-  box-shadow: inset 0 0 0 2px var(--aero);
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* Create new account */
-.justify-content-between {
-  margin-top: 20px;
+.d-flex.align-items-center {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 30px;
+  width: 100%;
 }
 
-@media (max-width: 576px) {
-  .create-account {
-    display: flex;
-    flex-direction: column;
-    margin-top: 5px;
-  }
-}
-
-/* Hide/Unhide password */
-.password-input {
+.d-flex.flex-column.align-items-end {
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Greeting and form */
+.greeting_form_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.greeting_left {
+  flex: 1 1 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  order: 0;
+}
+
+.form_right {
+  flex: 1 1 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  order: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .greeting_left,
+  .right-content {
+    flex: 1 1 100%;
+  }
 }

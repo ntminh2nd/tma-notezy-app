@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 // Dependencies
 import { Form, Button, Col, Alert, Spinner } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 // Imports
 
@@ -166,11 +164,6 @@ function FormComponent(props) {
                 style={{ width: "100%" }}
                 bsPrefix=""
               />
-              <FontAwesomeIcon
-                icon={!showPassword ? faEyeSlash : faEye}
-                className="password-icon ms-2"
-                onClick={() => setShowPassword(!showPassword)}
-              />
             </div>
           </Form.Group>
 
@@ -261,7 +254,7 @@ function FormComponent(props) {
             <Form.Label className="fw-bold unselectable-text" column>
               Mật khẩu
             </Form.Label>
-            <div className="d-flex align-items-center password-input position-relative">
+            <Col sm="6" style={{ width: "100%" }}>
               <Form.Control
                 type={showPassword ? "text" : "password"}
                 placeholder="Nhập mật khẩu của bạn"
@@ -272,32 +265,17 @@ function FormComponent(props) {
                 bsPrefix=""
                 isInvalid={!validPassword && password.length > 0}
               />
-              <FontAwesomeIcon
-                icon={!showPassword ? faEyeSlash : faEye}
-                className="password-icon ms-2 position-absolute"
-                onClick={() => setShowPassword(!showPassword)}
-                style={{
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  right: "10px",
-                  cursor: "pointer",
-                }}
-              />
-              <Form.Control.Feedback
-                type="invalid"
-                className="position-absolute"
-                style={{ top: "100%", left: 0 }}
-              >
+              <Form.Control.Feedback type="invalid">
                 {validatePassword(password)}
               </Form.Control.Feedback>
-            </div>
+            </Col>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label className="fw-bold unselectable-text" column>
               Nhập lại mật khẩu
             </Form.Label>
-            <div className="d-flex align-items-center password-input">
+            <Col sm="6" style={{ width: "100%" }}>
               <Form.Control
                 type={showPasswordRetype ? "text" : "password"}
                 placeholder="Nhập lại mật khẩu của bạn"
@@ -312,12 +290,7 @@ function FormComponent(props) {
               <Form.Control.Feedback type="invalid">
                 {validateConfirmPassword(passwordRetype, password)}
               </Form.Control.Feedback>
-              <FontAwesomeIcon
-                icon={!showPasswordRetype ? faEyeSlash : faEye}
-                className="password-icon ms-2"
-                onClick={() => setShowPasswordRetype(!showPasswordRetype)}
-              />
-            </div>
+            </Col>
           </Form.Group>
 
           {callbackError && (
@@ -330,31 +303,34 @@ function FormComponent(props) {
             </Alert>
           )}
 
-          <div className="d-flex justify-content-between">
-            <Button
-              className="unselectable-text"
-              variant={isProcessing ? "secondary" : "primary"}
-              type="submit"
-              disabled={isProcessing}
-            >
-              {isProcessing ? (
+          <div className="d-flex align-items-center justify-content-between">
+            <div>
+              <Button
+                className="unselectable-text"
+                variant={isProcessing ? "secondary" : "primary"}
+                type="submit"
+                disabled={isProcessing}
+              >
+                {isProcessing ? (
+                  <>
+                    <Spinner animation="border" size="sm" />
+                    <span className="ms-2">Đang tạo tài khoản...</span>
+                  </>
+                ) : (
+                  confirmButtonLabel
+                )}
+              </Button>
+            </div>
+            <div className="d-flex flex-column align-items-end">
+              {!isProcessing && (
                 <>
-                  <Spinner animation="border" size="sm" />
-                  <span className="ms-2">Đang tạo tài khoản...</span>
+                  <span className="unselectable-text">{question}</span>
+                  <span className="unselectable-text">
+                    <a href="#">{hyperlinkText}</a>
+                  </span>
                 </>
-              ) : (
-                confirmButtonLabel
               )}
-            </Button>
-
-            {isProcessing ? null : (
-              <div className="unselectable-text">
-                <span>{question}</span>
-                <span className="create-account">
-                  <a href="#">{hyperlinkText}</a>
-                </span>
-              </div>
-            )}
+            </div>
           </div>
         </Form>
       </div>

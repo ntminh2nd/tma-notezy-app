@@ -16,9 +16,11 @@ function SignIn() {
   };
 
   return (
-    <div className="d-flex vh-100 justify-content-center align-items-center">
-      <div className="d-flex flex-column">
+    <div className="greeting_form_wrapper">
+      <div className="greeting_left">
         <GreetingComponent {...greetingProps} />
+      </div>
+      <div className="form_right">
         <FormComponent isLoginPage={false} />
       </div>
     </div>
