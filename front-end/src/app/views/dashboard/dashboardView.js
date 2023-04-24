@@ -7,7 +7,7 @@ function Dashboard() {
 
   const handleSignOut = () => {
     localStorage.removeItem("userToken");
-    navigate("/");
+    navigate("/signin");
   };
 
   return (

@@ -55,7 +55,7 @@ function FormComponent(props) {
         setIsDanger(false);
         setTimeout(() => {
           navigate("/");
-        }, 1000);
+        }, 3000);
       }
     } catch (error) {
       console.log(error);
