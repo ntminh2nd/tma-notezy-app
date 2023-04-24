@@ -17,20 +17,31 @@ module.exports = {
     const body = req.body;
     const salt = genSaltSync(10);
     body.password = hashSync(body.password, salt);
-    create(body, (error, results) => {
+
+    getUserByEmail(body.email, (error, results) => {
       if (error) {
         console.log(error);
-        return res.status(500).json({
+      }
+      if (results) {
+        return res.json({
           success: 0,
-          message: "Không thể kết nối với database.",
+          message: "Email đã tồn tại.",
+        });
+      } else {
+        create(body, (err, results) => {
+          if (err) {
+            console.log(err);
+          }
+
+          return res.status(200).json({
+            success: 1,
+            message: "Tạo tài khoản thành công.",
+          });
         });
       }
-      return res.status(200).json({
-        success: 1,
-        message: results,
-      });
     });
   },
+
   getUserById: (req, res) => {
     const id = req.params.id;
     getUserById(id, (error, results) => {
@@ -46,10 +57,11 @@ module.exports = {
       }
       return res.json({
         success: 1,
-        data: results,
+        message: "Không tìm thấy người dùng.",
       });
     });
   },
+
   getUsers: (req, res) => {
     getUsers((error, results) => {
       if (error) {
@@ -62,6 +74,7 @@ module.exports = {
       });
     });
   },
+
   updateUser: (req, res) => {
     const id = req.params.id;
     const body = req.body;
@@ -78,6 +91,7 @@ module.exports = {
       });
     });
   },
+
   deleteUser: (req, res) => {
     const id = req.params.id;
     const body = req.body;
@@ -92,6 +106,7 @@ module.exports = {
       });
     });
   },
+
   login: (req, res) => {
     const body = req.body;
     getUserByEmail(body.email, (error, results) => {

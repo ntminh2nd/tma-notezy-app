@@ -42,14 +42,19 @@ function FormComponent(props) {
         });
       });
       console.log(response);
-      if (response.success === 0) {
+      if (response && response.success === 0) {
         setCallbackError(response.message);
+        setIsDanger(true);
         setIsProcessing(false);
       } else {
-        setCallbackError("");
+        setCallbackError(response.message);
+        setIsProcessing(false);
+        setIsDanger(false);
       }
     } catch (error) {
+      console.log(error);
       setCallbackError(error);
+      setIsDanger(true);
       setIsProcessing(false);
     }
   };
@@ -61,24 +66,34 @@ function FormComponent(props) {
     setCallbackError("");
     try {
       const response = await new Promise((resolve, reject) => {
-        userControllerAuth.createUser(name, email, password, (err, data) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(data);
+        userControllerAuth.createUser(
+          name,
+          email,
+          password,
+          passwordRetype,
+          (err, data) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(data);
+            }
           }
-        });
+        );
       });
       console.log(response);
-      if (response.success === 0) {
+      if (response && response.success === 0) {
         setCallbackError(response.message);
+        setIsDanger(true);
         setIsProcessing(false);
       } else {
-        setCallbackError("Tạo tài khoản thành công.");
+        setCallbackError(response.message);
+        setIsProcessing(false);
         setIsDanger(false);
       }
     } catch (error) {
+      console.log(error);
       setCallbackError(error);
+      setIsDanger(true);
       setIsProcessing(false);
     }
   };

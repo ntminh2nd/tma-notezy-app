@@ -22,8 +22,8 @@ class UserControllerAuth {
       });
   }
   // Create user
-  createUser(name, email, password, callback) {
-    const error = checkInputFields(email, password, name);
+  createUser(name, email, password, confirmPassword, callback) {
+    const error = checkInputFields(email, password, confirmPassword, name);
     if (error) {
       return callback(error);
     }
@@ -41,12 +41,21 @@ class UserControllerAuth {
 }
 
 // Null or empty input fields validation
-function checkInputFields(email, password, name = null) {
+function checkInputFields(
+  email,
+  password,
+  confirmPassword = null,
+  name = null
+) {
   let fields = [email, password];
   let fieldNames = ["Email", "Mật khẩu"];
   if (name !== null) {
     fields.unshift(name);
     fieldNames.unshift("Tên");
+  }
+  if (confirmPassword !== null) {
+    fields.push(confirmPassword);
+    fieldNames.push("Mật khẩu nhập lại");
   }
   for (let i = 0; i < fields.length; i++) {
     if (fields[i] === null || fields[i] === "") {

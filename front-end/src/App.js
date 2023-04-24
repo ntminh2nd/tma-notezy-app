@@ -8,7 +8,7 @@ import SignUp from "./app/views/sign_up/signUpView";
 function App() {
   return (
     <div>
-      <SignUp />
+      <SignIn />
     </div>
   );
 }

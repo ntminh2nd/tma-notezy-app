@@ -13,6 +13,7 @@ module.exports = {
       }
     );
   },
+
   getUsers: (callBack) => {
     pool.query(`select * from users`, [], (error, results, fields) => {
       if (error) {
@@ -21,6 +22,7 @@ module.exports = {
       return callBack(null, results);
     });
   },
+
   getUserById: (id, callBack) => {
     pool.query(
       `select * from users where id = ?`,
@@ -33,6 +35,7 @@ module.exports = {
       }
     );
   },
+
   getUserByEmail: (email, callBack) => {
     pool.query(
       `select * from users where email = ?`,
@@ -45,6 +48,7 @@ module.exports = {
       }
     );
   },
+
   updateUser: (id, data, callBack) => {
     pool.query(
       `update users set full_name = ?, email = ?, password = ? where id = ?`,
@@ -57,6 +61,7 @@ module.exports = {
       }
     );
   },
+
   // If the last user is deleted, when adding a new one, new id will be that deleted one's id
   deleteUser: (id, data, callBack) => {
     pool.query(

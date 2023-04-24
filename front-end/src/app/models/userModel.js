@@ -15,7 +15,7 @@ class UserModelAuth {
   }
   createUserAPI(name, email, password) {
     const createUserBody = {
-      full_namae: name,
+      full_name: name,
       email: email,
       password: password,
     };
