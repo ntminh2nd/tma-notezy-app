@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 // Dependencies
 import { Form, Button, Col, Alert, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 // Imports
 
@@ -25,6 +26,7 @@ function FormComponent(props) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordRetype, setShowPasswordRetype] = useState(false);
+  const navigate = useNavigate();
 
   // Handle sign in
   const handleSignIn = async (event) => {
@@ -47,9 +49,13 @@ function FormComponent(props) {
         setIsDanger(true);
         setIsProcessing(false);
       } else {
+        localStorage.setItem("userToken", response.token);
         setCallbackError(response.message);
         setIsProcessing(false);
         setIsDanger(false);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       }
     } catch (error) {
       console.log(error);
