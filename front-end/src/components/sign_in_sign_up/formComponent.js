@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // Dependencies
 import { Form, Button, Col, Alert, Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 // Imports
+
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { validateToken } from "../../redux/actions/authActions";
 
 // User controller
 import UserControllerAuth from "../../app/controllers/userController";
@@ -26,7 +29,9 @@ function FormComponent(props) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordRetype, setShowPasswordRetype] = useState(false);
-  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   // Handle sign in
   const handleSignIn = async (event) => {
@@ -54,8 +59,12 @@ function FormComponent(props) {
         setIsProcessing(false);
         setIsDanger(false);
         setTimeout(() => {
-          navigate("/");
-        }, 3000);
+          dispatch(validateToken()).then(() => {
+            if (isLoggedIn) {
+              window.location.reload();
+            }
+          });
+        }, 1000);
       }
     } catch (error) {
       console.log(error);

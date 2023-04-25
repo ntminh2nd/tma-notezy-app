@@ -1,13 +1,23 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { validateToken } from "../../../redux/actions/authActions";
 
 function Dashboard() {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const handleSignOut = () => {
     localStorage.removeItem("userToken");
-    navigate("/signin");
+    setTimeout(() => {
+      dispatch(validateToken()).then(() => {
+        if (!isLoggedIn) {
+          window.location.reload();
+        }
+      });
+    }, 1000);
   };
 
   return (

@@ -1,54 +1,44 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
+
+// Imports
 import SignIn from "./app/views/sign_in/signInView";
 import SignUp from "./app/views/sign_up/signUpView";
 import Dashboard from "./app/views/dashboard/dashboardView";
 
+// Dependencies
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { validateToken } from "./redux/actions/authActions";
+
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const loading = useSelector((state) => state.auth.loading);
 
   useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    setIsLoggedIn(!!token);
-    setLoading(false);
+    dispatch(validateToken());
+  }, [isLoggedIn, dispatch]);
 
-    const handleStorage = (event) => {
-      if (event.key === "userToken") {
-        setIsLoggedIn(!!event.newValue);
-      }
-    };
-    window.addEventListener("storage", handleStorage);
-
-    return () => {
-      window.removeEventListener("storage", handleStorage);
-    };
-  }, []);
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
+  }
 
   return (
     <BrowserRouter>
-      {loading ? (
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ height: "100vh" }}
-        >
-          <Spinner animation="border" variant="primary" />
-        </div>
-      ) : (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isLoggedIn ? <Navigate to="/notes" /> : <Navigate to="/signin" />
-            }
-          />
-
-          <Route path="/notes" element={<Dashboard />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Routes>
-      )}
+      <Routes>
+        <Route path="/" element={isLoggedIn ? <Dashboard /> : <SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
     </BrowserRouter>
   );
 }
