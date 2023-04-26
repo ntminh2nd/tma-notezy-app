@@ -7,7 +7,11 @@ import { Form, Button, Col, Alert, Spinner } from "react-bootstrap";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { validateToken } from "../../redux/actions/authActions";
+import {
+  validateToken,
+  setSessionExpiredMessage,
+  setForcedToSignOut,
+} from "../../redux/actions/authActions";
 
 // User controller
 import UserControllerAuth from "../../app/controllers/userController";
@@ -33,6 +37,11 @@ function FormComponent(props) {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
+  const sessionExpiredMessage = localStorage.getItem("sessionExpiredMessage");
+  const isForcedToSignOut = localStorage.getItem("isForcedToSignOut");
+
+  console.log(isForcedToSignOut);
+
   // Handle sign in
   const handleSignIn = async (event) => {
     event.preventDefault();
@@ -55,6 +64,9 @@ function FormComponent(props) {
         setIsProcessing(false);
       } else {
         localStorage.setItem("userToken", response.token);
+        dispatch(setSessionExpiredMessage(""), setForcedToSignOut(false));
+        localStorage.setItem("sessionExpiredMessage", sessionExpiredMessage);
+        localStorage.setItem("isForcedToSignOut", isForcedToSignOut);
         setCallbackError(response.message);
         setIsProcessing(false);
         setIsDanger(false);
@@ -248,6 +260,12 @@ function FormComponent(props) {
               </Col>
             </Form.Group>
           ) : null}
+
+          {isForcedToSignOut === true && (
+            <Alert className="unselectable-text" key={"info"} variant="info">
+              {sessionExpiredMessage}
+            </Alert>
+          )}
 
           {callbackError && (
             <Alert

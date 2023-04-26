@@ -1,22 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { validateToken } from "../../../redux/actions/authActions";
+import {
+  validateToken,
+  setSessionExpiredMessage,
+  setForcedToSignOut,
+} from "../../../redux/actions/authActions";
 
 function Dashboard() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const sessionExpiredMessage = useSelector(
+    (state) => state.sessionExpiredMessage
+  );
+  const isForcedToSignOut = useSelector((state) => state.isForcedToSignOut);
 
   const handleSignOut = () => {
     localStorage.removeItem("userToken");
-    dispatch(validateToken()).then(() => {
-      if (!isLoggedIn) {
-        window.location.reload();
-      }
-    });
+    window.location.reload();
   };
+
+  useEffect(() => {
+    const checkToken = async () => {
+      await dispatch(validateToken());
+    };
+
+    const tokenChecker = setInterval(() => {
+      checkToken();
+    }, 10000);
+
+    return () => clearInterval(tokenChecker);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      dispatch(
+        setSessionExpiredMessage(
+          "Phiên của bạn đã hết hạn. Vui lòng đăng nhập lại."
+        ),
+        setForcedToSignOut(true)
+      );
+      localStorage.setItem("sessionExpiredMessage", sessionExpiredMessage);
+      localStorage.setItem("isForcedToSignOut", isForcedToSignOut);
+      handleSignOut();
+    }
+  }, [isLoggedIn]);
 
   return (
     <div>
