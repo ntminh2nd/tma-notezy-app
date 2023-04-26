@@ -1,5 +1,7 @@
 // Dependencies
-import jwt from "jsonwebtoken";
+
+// Imports
+import UserModelAuth from "../../app/models/userModel";
 
 const loginRequest = () => {
   return {
@@ -17,13 +19,14 @@ const validateToken = () => {
         throw new Error("Token not found");
       }
 
-      const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
-      const expirationTime = Math.floor(Date.now() / 1000) + 3600;
-      if (decodedToken.exp < expirationTime) {
-        throw new Error("Token has expired");
-      }
+      const userModel = new UserModelAuth();
+      const response = await userModel.validateTokenAPI(token);
 
-      dispatch({ type: "LOGIN_SUCCESS" });
+      if (response.data.success === 1) {
+        dispatch({ type: "LOGIN_SUCCESS" });
+      } else {
+        throw new Error("Invalid token");
+      }
     } catch (error) {
       console.error(error);
       dispatch({ type: "LOGIN_FAILURE" });

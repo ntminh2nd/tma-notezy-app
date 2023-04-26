@@ -11,13 +11,11 @@ function Dashboard() {
 
   const handleSignOut = () => {
     localStorage.removeItem("userToken");
-    setTimeout(() => {
-      dispatch(validateToken()).then(() => {
-        if (!isLoggedIn) {
-          window.location.reload();
-        }
-      });
-    }, 1000);
+    dispatch(validateToken()).then(() => {
+      if (!isLoggedIn) {
+        window.location.reload();
+      }
+    });
   };
 
   return (

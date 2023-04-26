@@ -6,6 +6,11 @@ const api = require("./modelsConfig").API_USER_LOCAL;
 // const api = require("./modelsConfig").API_USER;
 
 class UserModelAuth {
+  constructor(token) {
+    this.api = api;
+    this.token = token || localStorage.getItem("userToken");
+  }
+
   signInUserAPI(email, password) {
     const signInBody = {
       email: email,
@@ -13,6 +18,7 @@ class UserModelAuth {
     };
     return axios.post(api + "/login", signInBody);
   }
+
   createUserAPI(name, email, password) {
     const createUserBody = {
       full_name: name,
@@ -20,6 +26,18 @@ class UserModelAuth {
       password: password,
     };
     return axios.post(api, createUserBody);
+  }
+
+  validateTokenAPI() {
+    return axios.post(
+      `${this.api}/validateToken`,
+      {},
+      {
+        headers: {
+          authorization: `Bearer ${this.token}`,
+        },
+      }
+    );
   }
 }
 
