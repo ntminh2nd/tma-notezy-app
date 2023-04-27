@@ -269,10 +269,10 @@ function FormComponent(props) {
             </Alert>
           )}
 
-          <div className="d-flex align-items-center justify-content-between">
+          <div className="question-container d-flex align-items-center justify-content-between">
             <div>
               <Button
-                className="unselectable-text"
+                className="unselectable-text btn"
                 variant={isProcessing ? "secondary" : "primary"}
                 type="submit"
                 disabled={isProcessing}
@@ -287,10 +287,14 @@ function FormComponent(props) {
                 )}
               </Button>
             </div>
-            <div className="d-flex flex-column align-items-end">
-              {!isProcessing && (
-                <>
+            <div className="question-container">
+              <div className="question">
+                {!isProcessing && (
                   <span className="unselectable-text">{question}</span>
+                )}
+              </div>
+              {!isProcessing && (
+                <div className="d-flex justify-content-center">
                   <span className="unselectable-text">
                     {!isLoginPage ? (
                       <Link to="/">{hyperlinkText}</Link>
@@ -298,7 +302,7 @@ function FormComponent(props) {
                       <Link to="/signup">{hyperlinkText}</Link>
                     )}
                   </span>
-                </>
+                </div>
               )}
             </div>
           </div>
