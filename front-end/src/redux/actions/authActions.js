@@ -34,18 +34,4 @@ const validateToken = () => {
   };
 };
 
-export const setSessionExpiredMessage = (message) => {
-  return {
-    type: "SET_SESSION_EXPIRED_MESSAGE",
-    payload: message,
-  };
-};
-
-export const setForcedToSignOut = (isForced) => {
-  return {
-    type: "SET_FORCED_TO_SIGN_OUT",
-    payload: isForced,
-  };
-};
-
 export { validateToken };

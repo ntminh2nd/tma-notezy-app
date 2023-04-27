@@ -2,16 +2,13 @@ import React, { useState, useEffect } from "react";
 
 // Dependencies
 import { Form, Button, Col, Alert, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 // Imports
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import {
-  validateToken,
-  setSessionExpiredMessage,
-  setForcedToSignOut,
-} from "../../redux/actions/authActions";
+import { validateToken } from "../../redux/actions/authActions";
 
 // User controller
 import UserControllerAuth from "../../app/controllers/userController";
@@ -37,15 +34,16 @@ function FormComponent(props) {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  const sessionExpiredMessage = localStorage.getItem("sessionExpiredMessage");
-  const isForcedToSignOut = localStorage.getItem("isForcedToSignOut");
-
-  console.log(isForcedToSignOut);
+  // Set the session expired message if available
+  const [sessionExpiredMessage, setSessionExpiredMessage] = useState(
+    localStorage.getItem("sessionExpiredMessage")
+  );
 
   // Handle sign in
   const handleSignIn = async (event) => {
     event.preventDefault();
     setIsProcessing(true);
+    setSessionExpiredMessage("");
     setCallbackError("");
     try {
       const response = await new Promise((resolve, reject) => {
@@ -57,16 +55,13 @@ function FormComponent(props) {
           }
         });
       });
-      console.log(response);
       if (response && response.success === 0) {
         setCallbackError(response.message);
         setIsDanger(true);
         setIsProcessing(false);
       } else {
         localStorage.setItem("userToken", response.token);
-        dispatch(setSessionExpiredMessage(""), setForcedToSignOut(false));
-        localStorage.setItem("sessionExpiredMessage", sessionExpiredMessage);
-        localStorage.setItem("isForcedToSignOut", isForcedToSignOut);
+        localStorage.removeItem("sessionExpiredMessage");
         setCallbackError(response.message);
         setIsProcessing(false);
         setIsDanger(false);
@@ -107,7 +102,6 @@ function FormComponent(props) {
           }
         );
       });
-      console.log(response);
       if (response && response.success === 0) {
         setCallbackError(response.message);
         setIsDanger(true);
@@ -261,19 +255,15 @@ function FormComponent(props) {
             </Form.Group>
           ) : null}
 
-          {isForcedToSignOut === true && (
-            <Alert className="unselectable-text" key={"info"} variant="info">
-              {sessionExpiredMessage}
-            </Alert>
-          )}
-
-          {callbackError && (
+          {isLoginPage && (sessionExpiredMessage || callbackError) && (
             <Alert
               className="unselectable-text"
-              key={"danger"}
-              variant={isDanger ? "danger" : "success"}
+              key={"alert"}
+              variant={
+                callbackError ? (isDanger ? "danger" : "success") : "warning"
+              }
             >
-              {callbackError}
+              {callbackError || sessionExpiredMessage}
             </Alert>
           )}
 
@@ -300,7 +290,11 @@ function FormComponent(props) {
                 <>
                   <span className="unselectable-text">{question}</span>
                   <span className="unselectable-text">
-                    <a href="#">{hyperlinkText}</a>
+                    {!isLoginPage ? (
+                      <Link to="/">{hyperlinkText}</Link>
+                    ) : (
+                      <Link to="/signup">{hyperlinkText}</Link>
+                    )}
                   </span>
                 </>
               )}

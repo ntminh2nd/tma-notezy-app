@@ -57,7 +57,7 @@ module.exports = {
       }
       return res.json({
         success: 1,
-        message: "Không tìm thấy người dùng.",
+        data: results,
       });
     });
   },

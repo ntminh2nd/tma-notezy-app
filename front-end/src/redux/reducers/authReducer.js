@@ -3,8 +3,6 @@ const initialState = {
     isLoggedIn: false,
     loading: false,
   },
-  sessionExpiredMessage: "",
-  isForcedToSignOut: false,
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -34,16 +32,6 @@ const AuthReducer = (state = initialState, action) => {
           isLoggedIn: false,
           loading: false,
         },
-      };
-    case "SET_SESSION_EXPIRED_MESSAGE":
-      return {
-        ...state,
-        sessionExpiredMessage: action.payload,
-      };
-    case "SET_FORCED_TO_SIGN_OUT":
-      return {
-        ...state,
-        isForcedToSignOut: action.payload,
       };
     default:
       return state;

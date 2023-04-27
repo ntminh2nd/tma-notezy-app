@@ -6,7 +6,7 @@ import SignUp from "./app/views/sign_up/signUpView";
 import Dashboard from "./app/views/dashboard/dashboardView";
 
 // Dependencies
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 
 // Redux
@@ -18,6 +18,7 @@ function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const loading = useSelector((state) => state.auth.loading);
 
+  // Validate token on initialization
   useEffect(() => {
     dispatch(validateToken());
   }, [isLoggedIn, dispatch]);
