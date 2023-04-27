@@ -27,7 +27,7 @@ function Dashboard() {
     };
     const tokenChecker = setInterval(() => {
       checkToken();
-    }, 10000);
+    }, 3600000);
 
     return () => {
       clearInterval(tokenChecker);

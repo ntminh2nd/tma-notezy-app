@@ -84,38 +84,40 @@ function FormComponent(props) {
   // Handle create user
   const handleCreateUser = async (event) => {
     event.preventDefault();
-    setIsProcessing(true);
-    setCallbackError("");
-    try {
-      const response = await new Promise((resolve, reject) => {
-        userControllerAuth.createUser(
-          name,
-          email,
-          password,
-          passwordRetype,
-          (err, data) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(data);
+    if (passwordRetype === password) {
+      setIsProcessing(true);
+      setCallbackError("");
+      try {
+        const response = await new Promise((resolve, reject) => {
+          userControllerAuth.createUser(
+            name,
+            email,
+            password,
+            passwordRetype,
+            (err, data) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(data);
+              }
             }
-          }
-        );
-      });
-      if (response && response.success === 0) {
-        setCallbackError(response.message);
+          );
+        });
+        if (response && response.success === 0) {
+          setCallbackError(response.message);
+          setIsDanger(true);
+          setIsProcessing(false);
+        } else {
+          setCallbackError(response.message);
+          setIsProcessing(false);
+          setIsDanger(false);
+        }
+      } catch (error) {
+        console.log(error);
+        setCallbackError(error);
         setIsDanger(true);
         setIsProcessing(false);
-      } else {
-        setCallbackError(response.message);
-        setIsProcessing(false);
-        setIsDanger(false);
       }
-    } catch (error) {
-      console.log(error);
-      setCallbackError(error);
-      setIsDanger(true);
-      setIsProcessing(false);
     }
   };
 

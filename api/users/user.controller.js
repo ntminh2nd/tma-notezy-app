@@ -123,7 +123,7 @@ module.exports = {
       if (result) {
         result.password = undefined;
         const jsonToken = sign({ result: results }, process.env.TOKEN_KEY, {
-          expiresIn: "10s",
+          expiresIn: "1h",
         });
         return res.json({
           success: 1,
