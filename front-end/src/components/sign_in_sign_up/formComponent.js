@@ -255,7 +255,7 @@ function FormComponent(props) {
             </Form.Group>
           ) : null}
 
-          {isLoginPage && (sessionExpiredMessage || callbackError) && (
+          {((sessionExpiredMessage && isLoginPage) || callbackError) && (
             <Alert
               className="unselectable-text"
               key={"alert"}
