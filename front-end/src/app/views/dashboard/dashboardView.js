@@ -1,12 +1,47 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { validateToken } from "../../../redux/actions/authActions";
 
+// User controller
+import UserControllerAuth from "../../../app/controllers/userController";
+
+const userControllerAuth = new UserControllerAuth();
+
 function Dashboard() {
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
+
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  // Handle display user's information
+const getUserInfo = async () => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      userControllerAuth.getUserById(userId, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+    if (response && response.success === 1) {
+      setUserName(response.data.full_name);
+      setUserEmail(response.data.email);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+  useEffect(() => {
+    getUserInfo();
+  }, [userId]);
 
   // Handle sign out
   const handleSignOut = () => {
@@ -37,6 +72,8 @@ function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
+      <h1>{userName}</h1>
+      <h1>{userEmail}</h1>
       <Button
         className="unselectable-text"
         variant="primary"

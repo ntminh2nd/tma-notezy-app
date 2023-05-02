@@ -38,6 +38,19 @@ class UserControllerAuth {
         callback(error.response.data.error);
       });
   }
+
+  // Get user by id
+  getUserById(id, callback) {
+    userModelAuth
+      .getUserByIdAPI(id)
+      .then((response) => {
+        callback(null, response.data);
+      })
+      .catch((error) => {
+        // Handle error response
+        callback(error.response.data.error);
+      });
+  }
 }
 
 // Null or empty input fields validation

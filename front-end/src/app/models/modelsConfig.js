@@ -1,4 +1,4 @@
-const API_LOCAL = "http://localhost:4000/api";
+const API_LOCAL = process.env.REACT_APP_API_LOCAL;
 export const API_USER_LOCAL = API_LOCAL + "/users";
 export const API_NOTES_LOCAL = API_LOCAL + "/notes";
 

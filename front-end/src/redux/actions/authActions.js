@@ -1,5 +1,5 @@
 // Dependencies
-
+import jwt_decode from "jwt-decode";
 // Imports
 import UserModelAuth from "../../app/models/userModel";
 
@@ -23,7 +23,9 @@ const validateToken = () => {
       const response = await userModel.validateTokenAPI(token);
 
       if (response.data.success === 1) {
-        dispatch({ type: "LOGIN_SUCCESS" });
+        const decodedToken = jwt_decode(token);
+        const userId = decodedToken.result;
+        dispatch({ type: "LOGIN_SUCCESS", payload: { userId } });
       } else {
         throw new Error("Invalid token");
       }
@@ -33,5 +35,6 @@ const validateToken = () => {
     }
   };
 };
+
 
 export { validateToken };

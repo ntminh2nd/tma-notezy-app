@@ -121,8 +121,8 @@ module.exports = {
       }
       const result = compareSync(body.password, results.password);
       if (result) {
-        result.password = undefined;
-        const jsonToken = sign({ result: results }, process.env.TOKEN_KEY, {
+        result.password = undefined;  
+        const jsonToken = sign({ result: results.id }, process.env.TOKEN_KEY, {
           expiresIn: "1h",
         });
         return res.json({

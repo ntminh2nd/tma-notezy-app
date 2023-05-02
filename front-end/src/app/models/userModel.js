@@ -28,6 +28,10 @@ class UserModelAuth {
     return axios.post(api, createUserBody);
   }
 
+  getUserByIdAPI(id) {
+    return axios.get(api + "/" + id);
+  }
+
   validateTokenAPI() {
     return axios.post(
       `${this.api}/validateToken`,
