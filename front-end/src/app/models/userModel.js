@@ -29,7 +29,12 @@ class UserModelAuth {
   }
 
   getUserByIdAPI(id) {
-    return axios.get(api + "/" + id);
+    return axios.get(api + "/" + id, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    });
+
   }
 
   validateTokenAPI() {

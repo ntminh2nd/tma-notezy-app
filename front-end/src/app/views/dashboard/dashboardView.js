@@ -16,31 +16,35 @@ function Dashboard() {
 
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // Add isLoading state
 
   // Handle display user's information
-const getUserInfo = async () => {
-  try {
-    const response = await new Promise((resolve, reject) => {
-      userControllerAuth.getUserById(userId, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
+  const getUserInfo = async () => {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        userControllerAuth.getUserById(userId, (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
       });
-    });
-    if (response && response.success === 1) {
-      setUserName(response.data.full_name);
-      setUserEmail(response.data.email);
+      if (response && response.success === 1) {
+        setUserName(response.data.full_name);
+        setUserEmail(response.data.email);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false); // Set isLoading to false once the user information is retrieved
     }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+  };
 
   useEffect(() => {
-    getUserInfo();
+    if (userId) {
+      getUserInfo();
+    }
   }, [userId]);
 
   // Handle sign out
@@ -60,14 +64,20 @@ const getUserInfo = async () => {
         localStorage.setItem("sessionExpiredMessage", sessionExpiredMessage);
       }
     };
+
     const tokenChecker = setInterval(() => {
       checkToken();
-    }, 3600000);
+    }, parseInt(process.env.REACT_APP_TIME_AMOUNT_TO_CHECK_TOKEN));
 
     return () => {
       clearInterval(tokenChecker);
     };
   }, [dispatch]);
+
+  // Display loading message if user information is being fetched
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
