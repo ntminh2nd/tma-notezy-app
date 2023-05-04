@@ -1,40 +1,45 @@
-/* SF Pro Display Regular */
+/**
+ * SF Pro Display Regular
+ *
+ * @format
+ */
+
 @font-face {
-  font-family: "SF Pro Display";
-  font-weight: 400;
-  src: url("../../fonts/SF-Pro-Display-Regular.otf") format("opentype");
+	font-family: 'SF Pro Display';
+	font-weight: 400;
+	src: url('../../fonts/SF-Pro-Display-Regular.otf') format('opentype');
 }
 
 /* SF Pro Display Medium */
 @font-face {
-  font-family: "SF Pro Display";
-  font-weight: 500;
-  src: url("../../fonts/SF-Pro-Display-Medium.otf") format("opentype");
+	font-family: 'SF Pro Display';
+	font-weight: 500;
+	src: url('../../fonts/SF-Pro-Display-Medium.otf') format('opentype');
 }
 
 /* SF Pro Display Semibold */
 @font-face {
-  font-family: "SF Pro Display";
-  font-weight: 600;
-  src: url("../../fonts/SF-Pro-Display-Semibold.otf") format("opentype");
+	font-family: 'SF Pro Display';
+	font-weight: 600;
+	src: url('../../fonts/SF-Pro-Display-Semibold.otf') format('opentype');
 }
 
 /* SF Pro Display Bold */
 @font-face {
-  font-family: "SF Pro Display";
-  font-weight: 700;
-  src: url("../../fonts/SF-Pro-Display-Bold.otf") format("opentype");
+	font-family: 'SF Pro Display';
+	font-weight: 700;
+	src: url('../../fonts/SF-Pro-Display-Bold.otf') format('opentype');
 }
 
 * {
-  font-family: "SF Pro Display", sans-serif;
+	font-family: 'SF Pro Display', sans-serif;
 }
 
 body {
-  background-image: url("../../assets/tma_bg.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+	background-image: url('../src/assets/tma_bg.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
 
 /* .bg-overlay {
@@ -54,9 +59,9 @@ body {
 
 /* Allow a text is selectable or not */
 .selectable-text {
-  user-select: auto;
+	user-select: auto;
 }
 
 .unselectable-text {
-  user-select: none;
+	user-select: none;
 }
