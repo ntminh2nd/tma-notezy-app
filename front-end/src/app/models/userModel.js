@@ -16,7 +16,11 @@ class UserModelAuth {
       email: email,
       password: password,
     };
-    return axios.post(api + "/login", signInBody);
+    const headers = {};
+    if (this.token) {
+      headers.Authorization = `Bearer ${this.token}`;
+    }
+    return axios.post(api + "/login", signInBody, { headers });
   }
 
   createUserAPI(name, email, password) {
@@ -35,18 +39,6 @@ class UserModelAuth {
       },
     });
 
-  }
-
-  validateTokenAPI() {
-    return axios.post(
-      `${this.api}/validateToken`,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${this.token}`,
-        },
-      }
-    );
   }
 }
 

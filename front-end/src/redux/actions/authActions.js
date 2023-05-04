@@ -1,7 +1,7 @@
 // Dependencies
 import jwt_decode from "jwt-decode";
 // Imports
-import UserModelAuth from "../../app/models/userModel";
+import UserControllerAuth from "../../app/controllers/userController";
 
 const loginRequest = () => {
   return {
@@ -18,15 +18,12 @@ const validateToken = () => {
       if (!token) {
         throw new Error("Token not found");
       }
-
-      const userModel = new UserModelAuth();
-      const response = await userModel.validateTokenAPI(token);
-
-      if (response.data.success === 1) {
+      else if (token) {
         const decodedToken = jwt_decode(token);
         const userId = decodedToken.result;
         dispatch({ type: "LOGIN_SUCCESS", payload: { userId } });
-      } else {
+      }
+      else {
         throw new Error("Invalid token");
       }
     } catch (error) {

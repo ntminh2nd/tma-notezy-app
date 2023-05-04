@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 // Imports
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
-import { validateToken } from "../../redux/actions/authActions";
 
 // User controller
 import UserControllerAuth from "../../app/controllers/userController";
@@ -30,9 +28,6 @@ function FormComponent(props) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordRetype, setShowPasswordRetype] = useState(false);
-
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   // Set the session expired message if available
   const [sessionExpiredMessage, setSessionExpiredMessage] = useState(
@@ -66,11 +61,7 @@ function FormComponent(props) {
         setIsProcessing(false);
         setIsDanger(false);
         setTimeout(() => {
-          dispatch(validateToken()).then(() => {
-            if (isLoggedIn) {
-              window.location.reload();
-            }
-          });
+          window.location.reload();
         }, 1000);
       }
     } catch (error) {

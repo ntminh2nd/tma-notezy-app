@@ -16,13 +16,13 @@ function Dashboard() {
 
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(true); // Add isLoading state
+  const [isLoading, setIsLoading] = useState(true);
 
   // Handle display user's information
-  const getUserInfo = async () => {
+  const getUserInfo = async (id) => {
     try {
       const response = await new Promise((resolve, reject) => {
-        userControllerAuth.getUserById(userId, (err, data) => {
+        userControllerAuth.getUserById(id, (err, data) => {
           if (err) {
             reject(err);
           } else {
@@ -30,20 +30,22 @@ function Dashboard() {
           }
         });
       });
-      if (response && response.success === 1) {
+      if (response && response.success === 0) {
+        console.log(response.message)
+      }
+      else {
         setUserName(response.data.full_name);
         setUserEmail(response.data.email);
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false); // Set isLoading to false once the user information is retrieved
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     if (userId) {
-      getUserInfo();
+      getUserInfo(userId);
     }
   }, [userId]);
 

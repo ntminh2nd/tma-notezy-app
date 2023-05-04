@@ -18,10 +18,8 @@ module.exports = {
         }
       });
     } else {
-      res.json({
-        success: 0,
-        message: "Không thể truy cập vì chưa xác thực.",
-      });
+      next();
     }
   },
 };
+
