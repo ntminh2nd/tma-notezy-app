@@ -5,6 +5,9 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { validateToken } from "../../../redux/actions/authActions";
 
+// Imports
+import LoadingIndicator from "../../../components/shared/loadingIndicator";
+
 // User controller
 import UserControllerAuth from "../../../app/controllers/userController";
 
@@ -78,7 +81,7 @@ function Dashboard() {
 
   // Display loading message if user information is being fetched
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingIndicator />;
   }
 
   return (

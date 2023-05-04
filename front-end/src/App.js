@@ -4,10 +4,10 @@ import React, { useState, useEffect } from "react";
 import SignIn from "./app/views/sign_in/signInView";
 import SignUp from "./app/views/sign_up/signUpView";
 import Dashboard from "./app/views/dashboard/dashboardView";
+import LoadingIndicator from "./components/shared/loadingIndicator";
 
 // Dependencies
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -25,12 +25,7 @@ function App() {
 
   if (loading) {
     return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
-      >
-        <Spinner animation="border" variant="primary" />
-      </div>
+      <LoadingIndicator />
     );
   }
 
