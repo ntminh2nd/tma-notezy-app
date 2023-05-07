@@ -55,12 +55,6 @@ function Dashboard() {
 		}
 	}, [userId]);
 
-	// Handle sign out
-	const handleSignOut = () => {
-		localStorage.removeItem('userToken');
-		window.location.reload();
-	};
-
 	// Handle automatically sign user out if token is expired
 	useEffect(() => {
 		const checkToken = async () => {
@@ -90,13 +84,6 @@ function Dashboard() {
 	return (
 		<div>
 			<NotesList userName={userName} email={userEmail} />
-			<Button
-				className='unselectable-text'
-				variant='primary'
-				type='submit'
-				onClick={handleSignOut}>
-				Sign Out
-			</Button>
 		</div>
 	);
 }

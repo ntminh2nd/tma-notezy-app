@@ -136,14 +136,18 @@
 	display: none;
 }
 
-@media (max-width: 767.98px) {
-	.note-has-grid .single-note-item {
-		max-width: 100%;
+
+@media (max-width: 576px) {
+	.d-flex.flex-column.flex-md-row.p-3.mb-4.justify-content-between.align-items-center>div:first-child {
+		width: 100%;
+	}
+
+	.d-flex.flex-column.flex-md-row.p-3.mb-4.justify-content-between.align-items-center>div:first-child>form {
+		width: 100%;
+	}
+
+	.d-flex.flex-column.flex-md-row.p-3.mb-4.justify-content-between.align-items-center>div:first-child>form>.form-control {
+		width: 100%;
 	}
 }
 
-@media (max-width: 991.98px) {
-	.note-has-grid .single-note-item {
-		max-width: 216px;
-	}
-}

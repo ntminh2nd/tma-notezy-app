@@ -12,7 +12,7 @@ function NotesList(props) {
 	const userInfo = {
 		userName: props.userName,
 		email: props.email,
-	};
+	};    
 	return (
 		<div class='page-content container note-has-grid'>
 			<Header {...userInfo} />
