@@ -10,19 +10,36 @@ import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 // Imports
 import ModalPopUp from './modal';
 
-function SearchBar() {
-	const [showModal, setShowModal] = useState(false);
+// Redux
+import { useSelector } from 'react-redux';
 
+// Note controller
+import NoteControllerAuth from '../../app/controllers/noteController';
+
+const noteControllerAuth = new NoteControllerAuth();
+
+function SearchBar(props) {
+	const [showModal, setShowModal] = useState(false);
+	const handleModalOpen = () => setShowModal(true);
 	const onModalChange = (newValue) => {
 		setShowModal(newValue);
 	};
 
-	const handleModalOpen = () => setShowModal(true);
+	const [searchTerm, setSearchTerm] = useState('');
+
+	function handleSearchInputChange(event) {
+		const searchTerm = event.target.value;
+		setSearchTerm(searchTerm);
+		props.onSearchTermChange(searchTerm);
+	}
+
 	return (
 		<>
 			<div className='d-flex flex-column flex-md-row mb-4 justify-content-between align-items-center'>
 				<div className='col-md me-3'>
-					<Form className='d-flex flex-wrap align-items-center'>
+					<Form
+						className='d-flex flex-wrap align-items-center'
+						onSubmit={(e) => e.preventDefault()}>
 						<div className='input-group'>
 							<span className='input-group-text'>
 								<FontAwesomeIcon icon={faSearch} />
@@ -30,7 +47,9 @@ function SearchBar() {
 							<FormControl
 								type='text'
 								placeholder='Tìm kiếm ghi chú'
-								className='form-control'
+								className='form-control search-input'
+								value={searchTerm}
+								onChange={handleSearchInputChange}
 							/>
 						</div>
 					</Form>

@@ -3,6 +3,7 @@
 const {
 	create,
 	getNotes,
+	getNotesByUser,
 	getNoteById,
 	getNoteByTitleSearch,
 	updateNote,
@@ -62,6 +63,19 @@ module.exports = {
 			});
 		});
 	},
+	getNotesByUser: (req, res) => {
+		const userId = req.params.userId;
+		getNotesByUser(userId, (error, results) => {
+			if (error) {
+				console.log(error);
+				return;
+			}
+			return res.json({
+				success: 1,
+				data: results,
+			});
+		});
+	},
 	updateNote: (req, res) => {
 		const id = req.params.id;
 		const body = req.body;
@@ -92,7 +106,7 @@ module.exports = {
 	},
 	search: (req, res) => {
 		const body = req.body;
-		getNoteByTitleSearch(body.input, (error, results) => {
+		getNoteByTitleSearch(body, (error, results) => {
 			if (error) {
 				console.log(error);
 			}

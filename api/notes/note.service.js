@@ -5,8 +5,8 @@ const pool = require('../config/database');
 module.exports = {
 	create: (data, callBack) => {
 		pool.query(
-			`insert into notes(title, content, userId) values (?, ?, ?)`,
-			[data.title, data.content, data.userId],
+			`insert into notes(title, content, user_id) values (?, ?, ?)`,
+			[data.title, data.content, data.user_id],
 			(error, results, fields) => {
 				if (error) {
 					return callBack(error);
@@ -23,6 +23,18 @@ module.exports = {
 			return callBack(null, results);
 		});
 	},
+	getNotesByUser: (userId, callBack) => {
+		pool.query(
+			`select * from notes where user_id = ?`,
+			[userId],
+			(error, results, fields) => {
+				if (error) {
+					callBack(error);
+				}
+				return callBack(null, results);
+			}
+		);
+	},
 	getNoteById: (id, callBack) => {
 		pool.query(
 			`select * from notes where id = ?`,
@@ -35,10 +47,10 @@ module.exports = {
 			}
 		);
 	},
-	getNoteByTitleSearch: (userId, title, callBack) => {
+	getNoteByTitleSearch: (data, callBack) => {
 		pool.query(
 			`SELECT * FROM notes WHERE user_id = ? AND title LIKE ?`,
-			[userId, `%${title}%`],
+			[data.user_id, `%${data.title}%`],
 			(error, results, fields) => {
 				if (error) {
 					callBack(error);

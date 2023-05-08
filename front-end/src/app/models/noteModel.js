@@ -1,5 +1,8 @@
 /** @format */
 
+// Redux
+import { useSelector } from 'react-redux';
+
 // Dependencies
 import axios from 'axios';
 
@@ -7,21 +10,17 @@ import axios from 'axios';
 const api = require('./modelsConfig').API_NOTES_LOCAL;
 // const api = require("./modelsConfig").API_NOTES;
 
-// Redux
-import { useSelector } from 'react-redux';
-
 class NoteModelAuth {
 	constructor(token) {
 		this.api = api;
 		this.token = token || localStorage.getItem('userToken');
-		this.userId = useSelector((state) => state.auth.userId);
 	}
 
-	createNoteAPI(title, content) {
+	createNoteAPI(userId, title, content) {
 		const createNoteBody = {
 			title: title,
 			content: content,
-			userId: this.userId,
+			user_id: userId,
 		};
 		return axios.post(api, createNoteBody, {
 			headers: {
@@ -38,17 +37,25 @@ class NoteModelAuth {
 		});
 	}
 
-	getNotesAPI(id) {
-		return axios.get(api + '/notes' + id, {
+	getNotesAPI() {
+		return axios.get(api + '/', {
 			headers: {
 				Authorization: `Bearer ${this.token}`,
 			},
 		});
 	}
 
-	searchNoteAPI(title) {
+	getNotesByUserAPI(userId) {
+		return axios.get(api + '/user/' + userId, {
+			headers: {
+				Authorization: `Bearer ${this.token}`,
+			},
+		});
+	}
+
+	searchNoteAPI(userId, title) {
 		const searchNoteBody = {
-			userId: this.userId,
+			user_id: userId,
 			title: title,
 		};
 		return axios.post(api + '/search', searchNoteBody, {
@@ -62,7 +69,6 @@ class NoteModelAuth {
 		const updateNoteBody = {
 			title: title,
 			content: content,
-			userId: this.userId,
 		};
 		return axios.patch(api + '/' + id, updateNoteBody, {
 			headers: {

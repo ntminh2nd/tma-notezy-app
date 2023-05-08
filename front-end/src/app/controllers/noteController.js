@@ -7,14 +7,14 @@ const noteModelAuth = new NoteModelAuth();
 
 class NoteControllerAuth {
 	// Create note
-	createNote(title, content, callback) {
+	createNote(userId, title, content, callback) {
 		const error = checkInputFields(title, content);
 		if (error) {
 			return callback(error);
 		}
 
 		noteModelAuth
-			.createNoteAPI(title, content)
+			.createNoteAPI(userId, title, content)
 			.then((response) => {
 				callback(null, response.data);
 			})
@@ -26,8 +26,73 @@ class NoteControllerAuth {
 
 	// Get note by id
 	getNoteById(id, callback) {
-		userModelAuth
-			.getUserByIdAPI(id)
+		noteModelAuth
+			.getNoteByIdAPI(id)
+			.then((response) => {
+				callback(null, response.data);
+			})
+			.catch((error) => {
+				// Handle error response
+				callback(error.response.data.error);
+			});
+	}
+
+	// Get notes
+	getNotes(callback) {
+		noteModelAuth
+			.getNotesAPI()
+			.then((response) => {
+				callback(null, response.data);
+			})
+			.catch((error) => {
+				// Handle error response
+				callback(error.response.data.error);
+			});
+	}
+
+	// Get notes by user
+	getNotesByUser(userId, callback) {
+		noteModelAuth
+			.getNotesByUserAPI(userId)
+			.then((response) => {
+				callback(null, response.data);
+			})
+			.catch((error) => {
+				// Handle error response
+				callback(error.response.data.error);
+			});
+	}
+
+	// Search note
+	searchNote(userId, title, callback) {
+		noteModelAuth
+			.searchNoteAPI(userId, title)
+			.then((response) => {
+				callback(null, response.data);
+			})
+			.catch((error) => {
+				// Handle error response
+				callback(error.response.data.error);
+			});
+	}
+
+	// Update note
+	updateNote(id, title, content, callback) {
+		noteModelAuth
+			.updateNoteAPI(id, title, content)
+			.then((response) => {
+				callback(null, response.data);
+			})
+			.catch((error) => {
+				// Handle error response
+				callback(error.response.data.error);
+			});
+	}
+
+	// Delete note
+	deleteNote(id, callback) {
+		noteModelAuth
+			.deleteNoteAPI(id)
 			.then((response) => {
 				callback(null, response.data);
 			})

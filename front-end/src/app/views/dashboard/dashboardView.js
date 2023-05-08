@@ -9,7 +9,7 @@ import { validateToken } from '../../../redux/actions/authActions';
 
 // Imports
 import LoadingIndicator from '../../../components/shared/loadingIndicator';
-import NotesList from '../../../components/dashboard/notesList';
+import NoteList from '../../../components/dashboard/noteList';
 
 // User controller
 import UserControllerAuth from '../../../app/controllers/userController';
@@ -83,7 +83,7 @@ function Dashboard() {
 
 	return (
 		<div>
-			<NotesList userName={userName} email={userEmail} />
+			<NoteList userName={userName} email={userEmail} />
 		</div>
 	);
 }
