@@ -16,7 +16,7 @@ router.get('/', checkToken, getUsers);
 router.get('/:id', checkToken, getUserById);
 router.patch('/:id', checkToken, updateUser);
 router.delete('/:id', checkToken, deleteUser);
-router.post('/login', checkToken, login);
+router.post('/login', login);
 
 router.post('/validateToken', checkToken, (req, res) => {
 	res.status(200).json({

@@ -9,9 +9,9 @@ import TMA_Logo from '../../assets/tma-solutions.png';
 import '../../bootstrap/notes.css';
 
 // Dependencies
-import { Button, Form, FormControl } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faArrowRightFromBracket, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 function Header(props) {
 	const { userName, email } = props;
@@ -21,7 +21,6 @@ function Header(props) {
 		localStorage.removeItem('userToken');
 		window.location.reload();
 	};
-
 
 	return (
 		<div className='flex-column flex-md-row mb-4 justify-content-between align-items-center'>
@@ -45,41 +44,9 @@ function Header(props) {
 					variant='danger'
 					className='flex-shrink-0 unselectable-text'
 					onClick={handleSignOut}>
-					<FontAwesomeIcon
-						icon={faArrowRightFromBracket}
-						className='me-2'
-					/>
+					<FontAwesomeIcon icon={faArrowRightFromBracket} className='me-2' />
 					Đăng xuất
 				</Button>
-			</div>
-			<div className='d-flex flex-column flex-md-row mb-4 justify-content-between align-items-center'>
-				<div className='col-md me-3'>
-					<Form className='d-flex flex-wrap align-items-center'>
-						<div className='input-group'>
-							<span className='input-group-text'>
-								<FontAwesomeIcon icon={faSearch} />
-							</span>
-							<FormControl
-								type='text'
-								placeholder='Tìm kiếm ghi chú'
-								className='form-control'
-							/>
-						</div>
-					</Form>
-				</div>
-				<div className='col-md-auto'>
-					<div className='d-flex flex-wrap align-items-center justify-content-end'>
-						<Button
-							variant='primary'
-							className='flex-shrink-0 me-3 unselectable-text'>
-							<FontAwesomeIcon
-								icon={faPlus}
-								className='me-3'
-							/>
-							Tạo mới
-						</Button>
-					</div>
-				</div>
 			</div>
 		</div>
 	);
