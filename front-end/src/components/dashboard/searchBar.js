@@ -33,6 +33,10 @@ function SearchBar(props) {
 		props.onSearchTermChange(searchTerm);
 	}
 
+	function handleTitleContentChange(title, content) {
+		props.onTitleContentChange(title, content);
+	}
+
 	return (
 		<>
 			<div className='d-flex flex-column flex-md-row mb-4 justify-content-between align-items-center'>
@@ -70,6 +74,7 @@ function SearchBar(props) {
 				isNoteContent={false}
 				isModalOpen={showModal}
 				onModalChange={onModalChange}
+				onModalTitleContentChange={handleTitleContentChange}
 			/>
 		</>
 	);

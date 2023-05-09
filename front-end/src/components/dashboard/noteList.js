@@ -48,6 +48,7 @@ function NoteList(props) {
 
 	const [searchTerm, setSearchTerm] = useState('');
 
+	// Fetch notes (existed and searched)
 	const fetchNotes = async (id, searchTerm = '') => {
 		try {
 			const response = await new Promise((resolve, reject) => {
@@ -80,26 +81,68 @@ function NoteList(props) {
 		setIsLoading(false);
 	};
 
-	useEffect(() => {
-		if (userId) {
-			fetchNotes(userId, searchTerm);
-		}
-	}, [searchTerm]);
-
 	function handleSearchTermChange(searchTerm) {
 		setSearchTerm(searchTerm);
 		setIsLoading(true);
 	}
 
+	const [title, setNoteTitle] = useState('');
+	const [content, setNoteContent] = useState('');
+
+	// Create note
+	const createNote = async (id, title, content) => {
+		try {
+			const response = await new Promise((resolve, reject) => {
+				noteControllerAuth.createNote(id, title, content, (err, data) => {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(data);
+					}
+				});
+			});
+			if (response && response.success === 0) {
+				console.log(response.message);
+			} else {
+				setNoteList(response.data);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+		setIsLoading(false);
+		setNoteTitle("");
+		setNoteContent("");
+	};
+
+	function handleTitleContentChange(title, content) {
+		setNoteTitle(title);
+		setNoteContent(content);
+		setIsLoading(true);
+	}
+
+	useEffect(() => {
+		if (userId) {
+			fetchNotes(userId, searchTerm);
+			if (title && content) {
+				createNote(userId, title, content);
+			}
+		}
+	}, [searchTerm, title, content]);
+
 	return (
 		<div class='page-content container note-has-grid'>
 			<Header {...userInfo} />
-			<SearchBar onSearchTermChange={handleSearchTermChange} />
+			<SearchBar
+				onSearchTermChange={handleSearchTermChange}
+				onTitleContentChange={handleTitleContentChange}
+			/>
 			{isLoading ? (
 				<LoadingIndicator />
 			) : (
 				<div class='tab-content bg-transparent'>
-					<div id='note-full-container' class='note-has-grid row'>
+					<div
+						id='note-full-container'
+						class='note-has-grid row'>
 						{noteList.map((note) => (
 							<div
 								key={note.id}
