@@ -10,6 +10,7 @@ import Header from './header';
 import SearchBar from './searchBar';
 import LoadingIndicator from '../shared/loadingIndicator';
 import NewNoteModal from './newNoteModal';
+import EditNoteModal from './editNoteModal';
 
 // Dependencies
 import { Button } from 'react-bootstrap';
@@ -26,6 +27,7 @@ const noteControllerAuth = new NoteControllerAuth();
 
 function NoteList(props) {
 	const userId = useSelector((state) => state.auth.userId);
+	const [noteId, setNoteId] = useState('');
 	const [noteList, setNoteList] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -52,9 +54,14 @@ function NoteList(props) {
 
 	// New note modal
 	const [modalState, setModalState] = useState(false);
-	const handleModalOpen = () => setModalState(true);
 	const handleModalClose = (modalCloseState) => {
 		setModalState(modalCloseState);
+	};
+
+	// View/edit note modal
+	const [modalStateEditNote, setModalStateEditNote] = useState(false);
+	const handleModalCloseEditNote = (modalCloseState) => {
+		setModalStateEditNote(modalCloseState);
 	};
 
 	const [searchTerm, setSearchTerm] = useState('');
@@ -102,6 +109,16 @@ function NoteList(props) {
 		setIsLoading(true);
 	}
 
+	function handleUpdateNote() {
+		fetchNotes(userId, searchTerm);
+		setIsLoading(true);
+	}
+
+	function handleRemoveNote() {
+		fetchNotes(userId, searchTerm);
+		setIsLoading(true);
+	}
+
 	useEffect(() => {
 		if (userId) {
 			fetchNotes(userId, searchTerm);
@@ -116,6 +133,13 @@ function NoteList(props) {
 				onModalClose={handleModalClose}
 				onNewNoteCreated={handleNewNoteCreated}
 			/>
+			<EditNoteModal
+				modalStateEditNote={modalStateEditNote}
+				onModalCloseEditNote={handleModalCloseEditNote}
+				onUpdateNote={handleUpdateNote}
+				onDeleteNote={handleRemoveNote}
+				noteId={noteId}
+			/>
 			{/* Main note list page area */}
 			<div class='page-content container note-has-grid'>
 				<Header {...userInfo} />
@@ -128,8 +152,8 @@ function NoteList(props) {
 							<Button
 								variant='primary'
 								className='flex-shrink-0 me-3 unselectable-text'
-								onClick={handleModalOpen}>
-								<FontAwesomeIcon icon={faPlus} className='me-3' />
+								onClick={() => setModalState(true)}>
+								<FontAwesomeIcon icon={faPlus} className='me-2' />
 								Tạo mới
 							</Button>
 						</div>
@@ -149,7 +173,12 @@ function NoteList(props) {
 									<div
 										key={note.id}
 										className='col-md-4 single-note-item unselectable-text'>
-										<div className='card card-body'>
+										<div
+											className='card card-body'
+											onClick={() => {
+												setModalStateEditNote(true);
+												setNoteId(note.id);
+											}}>
 											<span className='side-stick'></span>
 											<h5
 												className='note-title text-truncate w-75 mb-0'

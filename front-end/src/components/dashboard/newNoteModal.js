@@ -138,7 +138,7 @@ function NewNoteModal(props) {
 							<span className='ms-2'>Đang tạo</span>
 						</>
 					) : (
-						'Tạo'
+						'Tạo ghi chú'
 					)}
 				</Button>
 			</Modal.Footer>

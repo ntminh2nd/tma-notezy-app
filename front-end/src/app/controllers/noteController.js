@@ -78,6 +78,10 @@ class NoteControllerAuth {
 
 	// Update note
 	updateNote(id, title, content, callback) {
+		const error = checkInputFields(title, content);
+		if (error) {
+			return callback(error);
+		}
 		noteModelAuth
 			.updateNoteAPI(id, title, content)
 			.then((response) => {
