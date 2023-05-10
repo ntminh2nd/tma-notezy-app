@@ -81,20 +81,30 @@ function NewNoteModal(props) {
 	}
 
 	return (
-		<Modal show={modalState} onHide={() => handleModalClose(false)} centered>
+		<Modal
+			show={modalState}
+			onHide={() => handleModalClose(false)}
+			centered>
 			<Modal.Header closeButton>
-				<Modal.Title className='fw-bold'>Ghi chú mới</Modal.Title>
+				<Modal.Title className='fw-bold unselectable-text'>
+					Ghi chú mới
+				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				{createNoteError && (
-					<Alert className='unselectable-text' key={'alert'} variant='danger'>
+					<Alert
+						className='unselectable-text'
+						key={'alert'}
+						variant='danger'>
 						{createNoteError}
 					</Alert>
 				)}
 
 				<Form onSubmit={(e) => e.preventDefault()}>
-					<Form.Group className='mb-4 fw-bold' controlId='formBasicTitle'>
-						<Form.Label>Tiêu đề</Form.Label>
+					<Form.Group
+						className='mb-4 fw-bold'
+						controlId='formBasicTitle'>
+						<Form.Label className='unselectable-text'>Tiêu đề</Form.Label>
 						<Form.Control
 							type='text'
 							placeholder='Nhập tiêu đề'
@@ -104,8 +114,10 @@ function NewNoteModal(props) {
 						/>
 					</Form.Group>
 
-					<Form.Group className='fw-bold' controlId='formBasicContent'>
-						<Form.Label>Nội dung</Form.Label>
+					<Form.Group
+						className='fw-bold'
+						controlId='formBasicContent'>
+						<Form.Label className='unselectable-text'>Nội dung</Form.Label>
 						<Form.Control
 							as='textarea'
 							rows={3}
@@ -134,7 +146,10 @@ function NewNoteModal(props) {
 					}}>
 					{isProcessing ? (
 						<>
-							<Spinner animation='border' size='sm' />
+							<Spinner
+								animation='border'
+								size='sm'
+							/>
 							<span className='ms-2'>Đang tạo</span>
 						</>
 					) : (

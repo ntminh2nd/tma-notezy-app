@@ -96,7 +96,7 @@ class NoteControllerAuth {
 	// Delete note
 	deleteNote(id, callback) {
 		noteModelAuth
-			.deleteNoteAPI(id)
+			.removeNoteAPI(id)
 			.then((response) => {
 				callback(null, response.data);
 			})

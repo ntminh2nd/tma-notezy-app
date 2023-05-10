@@ -22,6 +22,9 @@ import {
 // Redux
 import { useSelector } from 'react-redux';
 
+// Imports
+import ConfirmModal from '../shared/confirmModal';
+
 // Note controller
 import NoteControllerAuth from '../../app/controllers/noteController';
 
@@ -152,7 +155,7 @@ function EditNoteModal(props) {
 	// Remove note
 	const removeNote = async (id) => {
 		try {
-			setIsSavingNote(true);
+			setIsRemovingNote(true);
 			const response = await new Promise((resolve, reject) => {
 				noteControllerAuth.deleteNote(id, (err, data) => {
 					if (err) {
@@ -173,7 +176,7 @@ function EditNoteModal(props) {
 			console.log(error);
 			setUpdateNoteError(error);
 		}
-		setIsSavingNote(false);
+		setIsRemovingNote(false);
 	};
 
 	function handleRemoveNote() {
@@ -182,126 +185,171 @@ function EditNoteModal(props) {
 		}
 	}
 
+	// Confirm deleting note
+	const [modalStateConfirm, setModalStateConfirm] = useState(false);
+	const handleModalCloseConfirm = (modalCloseState) => {
+		setModalStateConfirm(modalCloseState);
+	};
+	const handleConfirmDeletingNote = () => {
+		handleRemoveNote();
+	};
+
 	return (
-		<Modal
-			show={modalStateEditNote}
-			onHide={() => handleModalClose(false)}
-			centered>
-			<Modal.Header closeButton>
-				<Modal.Title className='fw-bold'>{lastModified}</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				{updateNoteError && (
-					<Alert className='unselectable-text' key={'alert'} variant='danger'>
-						{updateNoteError}
-					</Alert>
-				)}
+		<>
+			<ConfirmModal
+				modalTitle='Xóa ghi chú'
+				modalContent='Bạn có muốn xóa ghi chú này không?'
+				modalStateConfirm={modalStateConfirm}
+				onModalCloseConfirm={handleModalCloseConfirm}
+				onModalPerformAction={handleConfirmDeletingNote}
+			/>
+			<Modal
+				show={modalStateEditNote}
+				onHide={() => handleModalClose(false)}
+				centered>
+				<Modal.Header closeButton>
+					<Modal.Title className='fw-bold unselectable-text'>
+						{lastModified}
+					</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					{updateNoteError && (
+						<Alert
+							className='unselectable-text'
+							key={'alert'}
+							variant='danger'>
+							{updateNoteError}
+						</Alert>
+					)}
 
-				<Form onSubmit={(e) => e.preventDefault()}>
-					<Form.Group className='mb-4 fw-bold' controlId='formBasicTitle'>
-						<Form.Label>Tiêu đề</Form.Label>
-						<Form.Control
-							type='text'
-							value={title}
-							onChange={handleTitleChange}
-							disabled={isSavingNote}
-							readOnly={isReadOnly}
-						/>
-					</Form.Group>
+					<Form onSubmit={(e) => e.preventDefault()}>
+						<Form.Group
+							className='mb-4 fw-bold'
+							controlId='formBasicTitle'>
+							<Form.Label className='unselectable-text'>Tiêu đề</Form.Label>
+							<Form.Control
+								type='text'
+								value={title}
+								onChange={handleTitleChange}
+								disabled={isSavingNote}
+								readOnly={isReadOnly}
+							/>
+						</Form.Group>
 
-					<Form.Group className='fw-bold' controlId='formBasicContent'>
-						<Form.Label>Nội dung</Form.Label>
-						<Form.Control
-							as='textarea'
-							rows={3}
-							value={content}
-							onChange={handleContentChange}
-							disabled={isSavingNote}
-							readOnly={isReadOnly}
-						/>
-					</Form.Group>
-				</Form>
-			</Modal.Body>
-			<Modal.Footer>
-				<Button
-					className='unselectable-text btn'
-					variant='secondary'
-					onClick={() => handleModalClose(false)}>
-					Đóng
-				</Button>
-				{!isEditMode && (
-					<Button
-						className='unselectable-text btn'
-						variant={isRemovingNote ? 'secondary' : 'danger'}
-						type='submit'
-						disabled={isRemovingNote}
-						onClick={() => {
-							setIsEditMode(false);
-							setIsSavingNote(false);
-							handleRemoveNote();
-						}}>
-						{isRemovingNote ? (
-							<>
-								<Spinner animation='border' size='sm' />
-								<span className='ms-2'>Đang xóa</span>
-							</>
-						) : (
-							<>
-								<FontAwesomeIcon icon={faTrash} className='me-2' />
-								Xóa
-							</>
-						)}
-					</Button>
-				)}
-				{!isEditMode && !isRemovingNote && !isSavingNote && (
-					<Button
-						className='unselectable-text btn'
-						variant={isRemovingNote ? 'secondary' : 'primary'}
-						disabled={isRemovingNote}
-						onClick={() => {
-							setIsEditMode(true);
-							setIsReadOnly(false);
-						}}>
-						<>
-							<FontAwesomeIcon icon={faEdit} className='me-2' />
-							Chỉnh sửa
-						</>
-					</Button>
-				)}
-				{isEditMode && !isRemovingNote && !isSavingNote && (
+						<Form.Group
+							className='fw-bold'
+							controlId='formBasicContent'>
+							<Form.Label className='unselectable-text'>Nội dung</Form.Label>
+							<Form.Control
+								as='textarea'
+								rows={3}
+								value={content}
+								onChange={handleContentChange}
+								disabled={isSavingNote}
+								readOnly={isReadOnly}
+							/>
+						</Form.Group>
+					</Form>
+				</Modal.Body>
+				<Modal.Footer>
 					<Button
 						className='unselectable-text btn'
 						variant='secondary'
-						onClick={() => {
-							setIsEditMode(false);
-							setIsReadOnly(true);
-						}}>
-						<FontAwesomeIcon icon={faXmark} className='me-2' />
-						Hủy
+						onClick={() => handleModalClose(false)}>
+						Đóng
 					</Button>
-				)}
-				{isEditMode && !isRemovingNote && (
-					<Button
-						className='unselectable-text btn'
-						variant={isSavingNote ? 'secondary' : 'success'}
-						type='submit'
-						disabled={isSavingNote}
-						onClick={handleUpdateNote}>
-						{isSavingNote ? (
+					{!isEditMode && (
+						<Button
+							className='unselectable-text btn'
+							variant={isRemovingNote ? 'secondary' : 'danger'}
+							type='submit'
+							disabled={isRemovingNote}
+							onClick={() => {
+								setIsEditMode(false);
+								setIsSavingNote(false);
+								setModalStateConfirm(true);
+							}}>
+							{isRemovingNote ? (
+								<>
+									<Spinner
+										animation='border'
+										size='sm'
+									/>
+									<span className='ms-2'>Đang xóa</span>
+								</>
+							) : (
+								<>
+									<FontAwesomeIcon
+										icon={faTrash}
+										className='me-2'
+									/>
+									Xóa
+								</>
+							)}
+						</Button>
+					)}
+					{!isEditMode && !isRemovingNote && !isSavingNote && (
+						<Button
+							className='unselectable-text btn'
+							variant={isRemovingNote ? 'secondary' : 'primary'}
+							disabled={isRemovingNote}
+							onClick={() => {
+								setIsEditMode(true);
+								setIsReadOnly(false);
+							}}>
 							<>
-								<Spinner animation='border' size='sm' />
-								<span className='ms-2'>Đang lưu</span>
+								<FontAwesomeIcon
+									icon={faEdit}
+									className='me-2'
+								/>
+								Chỉnh sửa
 							</>
-						) : (
-							<>
-								<FontAwesomeIcon icon={faCheck} className='me-2' />
-								Hoàn tất
-							</>
-						)}
-					</Button>
-				)}
-			</Modal.Footer>
-		</Modal>
+						</Button>
+					)}
+					{isEditMode && !isRemovingNote && !isSavingNote && (
+						<Button
+							className='unselectable-text btn'
+							variant='secondary'
+							onClick={() => {
+								setIsEditMode(false);
+								setIsReadOnly(true);
+							}}>
+							<FontAwesomeIcon
+								icon={faXmark}
+								className='me-2'
+							/>
+							Hủy
+						</Button>
+					)}
+					{isEditMode && !isRemovingNote && (
+						<Button
+							className='unselectable-text btn'
+							variant={isSavingNote ? 'secondary' : 'success'}
+							type='submit'
+							disabled={isSavingNote}
+							onClick={handleUpdateNote}>
+							{isSavingNote ? (
+								<>
+									<Spinner
+										animation='border'
+										size='sm'
+									/>
+									<span className='ms-2'>Đang lưu</span>
+								</>
+							) : (
+								<>
+									<FontAwesomeIcon
+										icon={faCheck}
+										className='me-2'
+									/>
+									Hoàn tất
+								</>
+							)}
+						</Button>
+					)}
+				</Modal.Footer>
+			</Modal>
+		</>
 	);
 }
 

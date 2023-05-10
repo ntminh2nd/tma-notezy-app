@@ -54,7 +54,7 @@
 }
 
 .card:hover {
-	background-color: var(--blizzard-blue);
+	background-color: rgba(204, 204, 204, 0.3);
 	cursor: pointer;
 }
 
