@@ -5,7 +5,7 @@ require("dotenv").config();
 module.exports = {
   checkToken: (req, res, next) => {
     let token = req.get("authorization");
-    if (token) {
+    if (token && token !== "") {
       token = token.slice(7);
       verify(token, process.env.TOKEN_KEY, (error, decoded) => {
         if (error) {
@@ -18,7 +18,10 @@ module.exports = {
         }
       });
     } else {
-      next();
+      res.json({
+        success: 0,
+        message: "Token không tồn tại.",
+      });
     }
   },
 };
