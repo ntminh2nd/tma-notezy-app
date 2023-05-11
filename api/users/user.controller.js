@@ -1,5 +1,5 @@
 const {
-  create,
+  createUser,
   getUsers,
   getUserById,
   updateUser,
@@ -28,7 +28,7 @@ module.exports = {
           message: "Email đã tồn tại.",
         });
       } else {
-        create(body, (err, results) => {
+        createUser(body, (err, results) => {
           if (err) {
             console.log(err);
           }
