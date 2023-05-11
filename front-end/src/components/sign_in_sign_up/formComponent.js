@@ -210,6 +210,7 @@ function FormComponent(props) {
                 placeholder="Nhập mật khẩu của bạn"
                 value={password}
                 onChange={handlePasswordInput}
+                disabled={isProcessing}
                 className="password-input"
                 style={{ width: "100%" }}
                 bsPrefix=""

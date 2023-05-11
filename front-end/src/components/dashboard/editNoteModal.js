@@ -18,6 +18,7 @@ import {
 	faTrash,
 	faXmark,
 } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment-timezone';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -52,18 +53,9 @@ function EditNoteModal(props) {
 	const [isReadOnly, setIsReadOnly] = useState(true);
 
 	function formatTimestamp(timestamp) {
-		const date = new Date(timestamp);
-		const utcDate = new Date(date.toUTCString());
-		const gmt7Date = new Date(utcDate.getTime() + 7 * 60 * 60 * 1000);
-		const formattedDate = gmt7Date.toLocaleString('vi-VN', {
-			timeZone: 'Asia/Ho_Chi_Minh',
-			hour12: false,
-			year: 'numeric',
-			month: '2-digit',
-			day: '2-digit',
-			hour: '2-digit',
-			minute: '2-digit',
-		});
+		const formattedDate = moment(timestamp)
+			.tz('Asia/Ho_Chi_Minh')
+			.format('HH:mm, DD-MM-YYYY');
 		return formattedDate;
 	}
 
