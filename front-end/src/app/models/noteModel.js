@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 // Imports
-const api = require('./modelsConfig').API_NOTES_LOCAL;
+const api = require('./modelsConfig').API_NOTES;
 // const api = require("./modelsConfig").API_NOTES;
 
 class NoteModelAuth {
