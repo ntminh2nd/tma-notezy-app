@@ -1,11 +1,11 @@
 ## TMA Notezy - A Note Taking App
-**Started on:** April 12, 2023
-**Finished on:** May 12, 2023
+- **Started on:** April 12, 2023
+- **Finished on:** May 12, 2023
 > **Deployed app: https://tma-notezy.vercel.app/**
 
-**Developer:** Nguyen Tri Minh
-**Major:** Front-end Web Developer
-**TMA Batch 40 Internship Program**
+- **Developer:** Nguyen Tri Minh
+- **Major:** Front-end Web Developer
+- **TMA Batch 40 Internship Program**
 
 
 ------------
