@@ -28,7 +28,7 @@ Technologies and toolkits used:
 - **MySQL** as the database, remote using **[CleverCloud](https://www.clever-cloud.com/ "CleverCloud")**
 - Deploy using **[Cyclic](https://www.cyclic.sh/ "Cyclic")**
 - Encode user passwords, sign and validate token using **JSON Web Token**. As a result, user passwords in the database are all encoded; sign in sessions are managed accordingly
-- API is structured using the **Service** -** Controller** -** Router** concept:
+- API is structured using the **Service** - **Controller** - **Router** concept:
 1. **Service:** Handles direct connections with the database
 2. **Controller:** Manages functions to be executed on requesting the API
 3. **Router:** Exports the API endpoints
@@ -40,7 +40,7 @@ Technologies and toolkits used:
 - **[React](https://react.dev/ "React")**, **HTML**  and **CSS** to build the UIs
 - CSS libraries: **[Bootstrap](https://getbootstrap.com/ "Bootstrap") and [React Bootstrap](https://react-bootstrap.github.io/ "React Bootstrap")**
 - Deploy using **[Vercel](https://vercel.com/ "Vercel")**
-- App is structured using the **Model** -** Controller** -** View** (**MVC**) concept:
+- App is structured using the **Model** - **Controller** - **View** (**MVC**) concept:
 1. **Model:** Handles direct requests to the API endpoints
 2. **Controller:** Manages functions to be executed from the UI components
 3. **View:** Handles the UI components of the app. View is divided into multiple components in order to reuse them if possible
