@@ -22,7 +22,7 @@ User could:
 ------------
 
 ### Back-end Side
-Source code is available at the **/api** directory
+Source code is available at the **/api** directory<br />
 Technologies and toolkits used:
 - **Node.js** and **Express.js** to build the API
 - **MySQL** as the database, remote using **[CleverCloud](https://www.clever-cloud.com/ "CleverCloud")**
@@ -35,7 +35,7 @@ Technologies and toolkits used:
 
 ------------
 ### Front-end Side
-Source code is available at the **/front-end** directory
+Source code is available at the **/front-end** directory<br />
 Technologies and toolkits used:
 - **[React](https://react.dev/ "React")**, **HTML**  and **CSS** to build the UIs
 - CSS libraries: **[Bootstrap](https://getbootstrap.com/ "Bootstrap") and [React Bootstrap](https://react-bootstrap.github.io/ "React Bootstrap")**
