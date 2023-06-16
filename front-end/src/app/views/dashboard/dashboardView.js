@@ -85,7 +85,10 @@ function Dashboard() {
 
 	return (
 		<div>
-			<NoteList userName={userName} email={userEmail} />
+			<NoteList
+				userName={userName}
+				email={userEmail}
+			/>
 		</div>
 	);
 }

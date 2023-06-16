@@ -147,7 +147,10 @@ function NoteList(props) {
 								variant='primary'
 								className='flex-shrink-0 me-3 unselectable-text'
 								onClick={() => setModalState(true)}>
-								<FontAwesomeIcon icon={faPlus} className='me-2' />
+								<FontAwesomeIcon
+									icon={faPlus}
+									className='me-2'
+								/>
 								Tạo mới
 							</Button>
 						</div>
@@ -157,7 +160,9 @@ function NoteList(props) {
 					<LoadingIndicator />
 				) : (
 					<div class='tab-content bg-transparent'>
-						<div id='note-full-container' class='note-has-grid row'>
+						<div
+							id='note-full-container'
+							class='note-has-grid row'>
 							{noteList
 								.sort(
 									(a, b) =>

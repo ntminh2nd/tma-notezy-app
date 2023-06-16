@@ -1,4 +1,4 @@
-export default class UserControllerAuth {
+class UserControllerAuth {
 	constructor(userModelAuth) {
 		this.userModelAuth = userModelAuth;
 	}
@@ -76,3 +76,5 @@ function checkInputFields(
 	}
 	return null;
 }
+
+export default UserControllerAuth;

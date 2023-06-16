@@ -1,4 +1,4 @@
-export default class NoteControllerAuth {
+class NoteControllerAuth {
 	constructor(noteModelAuth) {
 		this.noteModelAuth = noteModelAuth;
 	}
@@ -115,3 +115,5 @@ function checkInputFields(title, content) {
 	}
 	return null;
 }
+
+export default NoteControllerAuth;

@@ -6,8 +6,8 @@ import NoteModelAuth from '../models/noteModel';
 // Concrete Creator for Note Controller
 class NoteControllerCreator extends ControllerCreator {
 	createController() {
-		const userModelAuth = new NoteModelAuth();
-		return new NoteControllerAuth(userModelAuth);
+		const noteModelAuth = new NoteModelAuth();
+		return new NoteControllerAuth(noteModelAuth);
 	}
 }
 
