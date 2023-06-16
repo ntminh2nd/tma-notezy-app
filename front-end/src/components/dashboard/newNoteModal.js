@@ -15,10 +15,12 @@ import {
 // Redux
 import { useSelector } from 'react-redux';
 
-// Note controller
-import NoteControllerAuth from '../../app/controllers/noteController';
+// ControllerCreator
+import ControllerCreator from '../../app/creators/controllerCreator';
 
-const noteControllerAuth = new NoteControllerAuth();
+const controllerCreator = new ControllerCreator();
+const noteControllerCreator = controllerCreator.createControllerCreator('note');
+const noteControllerAuth = noteControllerCreator.createController();
 
 function NewNoteModal(props) {
 	const userId = useSelector((state) => state.auth.userId);
@@ -81,10 +83,7 @@ function NewNoteModal(props) {
 	}
 
 	return (
-		<Modal
-			show={modalState}
-			onHide={() => handleModalClose(false)}
-			centered>
+		<Modal show={modalState} onHide={() => handleModalClose(false)} centered>
 			<Modal.Header closeButton>
 				<Modal.Title className='fw-bold unselectable-text'>
 					Ghi chú mới
@@ -92,18 +91,13 @@ function NewNoteModal(props) {
 			</Modal.Header>
 			<Modal.Body>
 				{createNoteError && (
-					<Alert
-						className='unselectable-text'
-						key={'alert'}
-						variant='danger'>
+					<Alert className='unselectable-text' key={'alert'} variant='danger'>
 						{createNoteError}
 					</Alert>
 				)}
 
 				<Form onSubmit={(e) => e.preventDefault()}>
-					<Form.Group
-						className='mb-4 fw-bold'
-						controlId='formBasicTitle'>
+					<Form.Group className='mb-4 fw-bold' controlId='formBasicTitle'>
 						<Form.Label className='unselectable-text'>Tiêu đề</Form.Label>
 						<Form.Control
 							type='text'
@@ -114,9 +108,7 @@ function NewNoteModal(props) {
 						/>
 					</Form.Group>
 
-					<Form.Group
-						className='fw-bold'
-						controlId='formBasicContent'>
+					<Form.Group className='fw-bold' controlId='formBasicContent'>
 						<Form.Label className='unselectable-text'>Nội dung</Form.Label>
 						<Form.Control
 							as='textarea'
@@ -146,10 +138,7 @@ function NewNoteModal(props) {
 					}}>
 					{isProcessing ? (
 						<>
-							<Spinner
-								animation='border'
-								size='sm'
-							/>
+							<Spinner animation='border' size='sm' />
 							<span className='ms-2'>Đang tạo</span>
 						</>
 					) : (

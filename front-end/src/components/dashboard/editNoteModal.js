@@ -26,10 +26,12 @@ import { useSelector } from 'react-redux';
 // Imports
 import ConfirmModal from '../shared/confirmModal';
 
-// Note controller
-import NoteControllerAuth from '../../app/controllers/noteController';
+// ControllerCreator
+import ControllerCreator from '../../app/creators/controllerCreator';
 
-const noteControllerAuth = new NoteControllerAuth();
+const controllerCreator = new ControllerCreator();
+const noteControllerCreator = controllerCreator.createControllerCreator('note');
+const noteControllerAuth = noteControllerCreator.createController();
 
 function EditNoteModal(props) {
 	const userId = useSelector((state) => state.auth.userId);
@@ -206,18 +208,13 @@ function EditNoteModal(props) {
 				</Modal.Header>
 				<Modal.Body>
 					{updateNoteError && (
-						<Alert
-							className='unselectable-text'
-							key={'alert'}
-							variant='danger'>
+						<Alert className='unselectable-text' key={'alert'} variant='danger'>
 							{updateNoteError}
 						</Alert>
 					)}
 
 					<Form onSubmit={(e) => e.preventDefault()}>
-						<Form.Group
-							className='mb-4 fw-bold'
-							controlId='formBasicTitle'>
+						<Form.Group className='mb-4 fw-bold' controlId='formBasicTitle'>
 							<Form.Label className='unselectable-text'>Tiêu đề</Form.Label>
 							<Form.Control
 								type='text'
@@ -228,9 +225,7 @@ function EditNoteModal(props) {
 							/>
 						</Form.Group>
 
-						<Form.Group
-							className='fw-bold'
-							controlId='formBasicContent'>
+						<Form.Group className='fw-bold' controlId='formBasicContent'>
 							<Form.Label className='unselectable-text'>Nội dung</Form.Label>
 							<Form.Control
 								as='textarea'
@@ -263,18 +258,12 @@ function EditNoteModal(props) {
 							}}>
 							{isRemovingNote ? (
 								<>
-									<Spinner
-										animation='border'
-										size='sm'
-									/>
+									<Spinner animation='border' size='sm' />
 									<span className='ms-2'>Đang xóa</span>
 								</>
 							) : (
 								<>
-									<FontAwesomeIcon
-										icon={faTrash}
-										className='me-2'
-									/>
+									<FontAwesomeIcon icon={faTrash} className='me-2' />
 									Xóa
 								</>
 							)}
@@ -290,10 +279,7 @@ function EditNoteModal(props) {
 								setIsReadOnly(false);
 							}}>
 							<>
-								<FontAwesomeIcon
-									icon={faEdit}
-									className='me-2'
-								/>
+								<FontAwesomeIcon icon={faEdit} className='me-2' />
 								Chỉnh sửa
 							</>
 						</Button>
@@ -306,10 +292,7 @@ function EditNoteModal(props) {
 								setIsEditMode(false);
 								setIsReadOnly(true);
 							}}>
-							<FontAwesomeIcon
-								icon={faXmark}
-								className='me-2'
-							/>
+							<FontAwesomeIcon icon={faXmark} className='me-2' />
 							Hủy
 						</Button>
 					)}
@@ -322,18 +305,12 @@ function EditNoteModal(props) {
 							onClick={handleUpdateNote}>
 							{isSavingNote ? (
 								<>
-									<Spinner
-										animation='border'
-										size='sm'
-									/>
+									<Spinner animation='border' size='sm' />
 									<span className='ms-2'>Đang lưu</span>
 								</>
 							) : (
 								<>
-									<FontAwesomeIcon
-										icon={faCheck}
-										className='me-2'
-									/>
+									<FontAwesomeIcon icon={faCheck} className='me-2' />
 									Hoàn tất
 								</>
 							)}

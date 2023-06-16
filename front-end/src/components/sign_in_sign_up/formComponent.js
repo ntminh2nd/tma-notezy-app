@@ -10,10 +10,12 @@ import { Link } from 'react-router-dom';
 
 // Redux
 
-// User controller
-import UserControllerAuth from '../../app/controllers/userController';
+// ControllerCreator
+import ControllerCreator from '../../app/creators/controllerCreator';
 
-const userControllerAuth = new UserControllerAuth();
+const controllerCreator = new ControllerCreator();
+const userControllerCreator = controllerCreator.createControllerCreator('user');
+const userControllerAuth = userControllerCreator.createController();
 
 function FormComponent(props) {
 	const { isLoginPage } = props;
@@ -206,7 +208,7 @@ function FormComponent(props) {
 							</Form.Control.Feedback>
 						</Col>
 					</Form.Group>
-                 
+
 					<Form.Group className='mb-3' controlId='formBasicPassword'>
 						<Form.Label className='fw-bold unselectable-text' column>
 							Mật khẩu
