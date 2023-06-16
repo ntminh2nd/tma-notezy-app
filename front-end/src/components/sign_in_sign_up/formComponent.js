@@ -10,10 +10,12 @@ import { Link } from 'react-router-dom';
 
 // Redux
 
-// User controller
-import UserControllerAuth from '../../app/controllers/userController';
+// ControllerCreator
+import ControllerCreator from '../../app/creators/controllerCreator';
 
-const userControllerAuth = new UserControllerAuth();
+const controllerCreator = new ControllerCreator();
+const userControllerCreator = controllerCreator.createControllerCreator('user');
+const userControllerAuth = userControllerCreator.createController();
 
 function FormComponent(props) {
 	const { isLoginPage } = props;
@@ -173,11 +175,17 @@ function FormComponent(props) {
 			<div className='form'>
 				<Form onSubmit={!isLoginPage ? handleCreateUser : handleSignIn}>
 					{!isLoginPage ? (
-						<Form.Group className='mb-3' controlId='nameInput'>
-							<Form.Label className='fw-bold unselectable-text' column>
+						<Form.Group
+							className='mb-3'
+							controlId='nameInput'>
+							<Form.Label
+								className='fw-bold unselectable-text'
+								column>
 								Họ và tên
 							</Form.Label>
-							<Col sm='6' style={{ width: '100%' }}>
+							<Col
+								sm='6'
+								style={{ width: '100%' }}>
 								<Form.Control
 									type='text'
 									placeholder='Nhập tên của bạn'
@@ -188,11 +196,17 @@ function FormComponent(props) {
 							</Col>
 						</Form.Group>
 					) : null}
-					<Form.Group className='mb-3' controlId='formBasicEmail'>
-						<Form.Label className='fw-bold unselectable-text' column>
+					<Form.Group
+						className='mb-3'
+						controlId='formBasicEmail'>
+						<Form.Label
+							className='fw-bold unselectable-text'
+							column>
 							Địa chỉ email
 						</Form.Label>
-						<Col sm='6' style={{ width: '100%' }}>
+						<Col
+							sm='6'
+							style={{ width: '100%' }}>
 							<Form.Control
 								type='email'
 								placeholder='Nhập email của bạn'
@@ -206,12 +220,18 @@ function FormComponent(props) {
 							</Form.Control.Feedback>
 						</Col>
 					</Form.Group>
-                 
-					<Form.Group className='mb-3' controlId='formBasicPassword'>
-						<Form.Label className='fw-bold unselectable-text' column>
+
+					<Form.Group
+						className='mb-3'
+						controlId='formBasicPassword'>
+						<Form.Label
+							className='fw-bold unselectable-text'
+							column>
 							Mật khẩu
 						</Form.Label>
-						<Col sm='6' style={{ width: '100%' }}>
+						<Col
+							sm='6'
+							style={{ width: '100%' }}>
 							<Form.Control
 								type={showPassword ? 'text' : 'password'}
 								placeholder='Nhập mật khẩu của bạn'
@@ -232,11 +252,17 @@ function FormComponent(props) {
 					</Form.Group>
 
 					{!isLoginPage ? (
-						<Form.Group className='mb-3' controlId='formBasicPassword'>
-							<Form.Label className='fw-bold unselectable-text' column>
+						<Form.Group
+							className='mb-3'
+							controlId='formBasicPassword'>
+							<Form.Label
+								className='fw-bold unselectable-text'
+								column>
 								Nhập lại mật khẩu
 							</Form.Label>
-							<Col sm='6' style={{ width: '100%' }}>
+							<Col
+								sm='6'
+								style={{ width: '100%' }}>
 								<Form.Control
 									type={showPasswordRetype ? 'text' : 'password'}
 									placeholder='Nhập lại mật khẩu của bạn'
@@ -276,7 +302,10 @@ function FormComponent(props) {
 								disabled={isProcessing}>
 								{isProcessing ? (
 									<>
-										<Spinner animation='border' size='sm' />
+										<Spinner
+											animation='border'
+											size='sm'
+										/>
 										<span className='ms-2'>{confirmButtonProcessingLabel}</span>
 									</>
 								) : (

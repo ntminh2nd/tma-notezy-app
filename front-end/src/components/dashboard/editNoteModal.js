@@ -26,10 +26,12 @@ import { useSelector } from 'react-redux';
 // Imports
 import ConfirmModal from '../shared/confirmModal';
 
-// Note controller
-import NoteControllerAuth from '../../app/controllers/noteController';
+// ControllerCreator
+import ControllerCreator from '../../app/creators/controllerCreator';
 
-const noteControllerAuth = new NoteControllerAuth();
+const controllerCreator = new ControllerCreator();
+const noteControllerCreator = controllerCreator.createControllerCreator('note');
+const noteControllerAuth = noteControllerCreator.createController();
 
 function EditNoteModal(props) {
 	const userId = useSelector((state) => state.auth.userId);

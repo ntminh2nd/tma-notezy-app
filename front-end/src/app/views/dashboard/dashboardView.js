@@ -11,10 +11,12 @@ import { validateToken } from '../../../redux/actions/authActions';
 import LoadingIndicator from '../../../components/shared/loadingIndicator';
 import NoteList from '../../../components/dashboard/noteList';
 
-// User controller
-import UserControllerAuth from '../../../app/controllers/userController';
+// ControllerCreator
+import ControllerCreator from '../../creators/controllerCreator';
 
-const userControllerAuth = new UserControllerAuth();
+const controllerCreator = new ControllerCreator();
+const userControllerCreator = controllerCreator.createControllerCreator('user');
+const userControllerAuth = userControllerCreator.createController();
 
 function Dashboard() {
 	const dispatch = useDispatch();
@@ -83,7 +85,10 @@ function Dashboard() {
 
 	return (
 		<div>
-			<NoteList userName={userName} email={userEmail} />
+			<NoteList
+				userName={userName}
+				email={userEmail}
+			/>
 		</div>
 	);
 }

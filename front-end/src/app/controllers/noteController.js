@@ -1,11 +1,8 @@
-/** @format */
-
-// Imports
-import NoteModelAuth from '../models/noteModel';
-
-const noteModelAuth = new NoteModelAuth();
-
 class NoteControllerAuth {
+	constructor(noteModelAuth) {
+		this.noteModelAuth = noteModelAuth;
+	}
+
 	// Create note
 	createNote(userId, title, content, callback) {
 		const error = checkInputFields(title, content);
@@ -13,7 +10,7 @@ class NoteControllerAuth {
 			return callback(error);
 		}
 
-		noteModelAuth
+		this.noteModelAuth
 			.createNoteAPI(userId, title, content)
 			.then((response) => {
 				callback(null, response.data);
@@ -26,7 +23,7 @@ class NoteControllerAuth {
 
 	// Get note by id
 	getNoteById(id, callback) {
-		noteModelAuth
+		this.noteModelAuth
 			.getNoteByIdAPI(id)
 			.then((response) => {
 				callback(null, response.data);
@@ -39,7 +36,7 @@ class NoteControllerAuth {
 
 	// Get notes
 	getNotes(callback) {
-		noteModelAuth
+		this.noteModelAuth
 			.getNotesAPI()
 			.then((response) => {
 				callback(null, response.data);
@@ -52,7 +49,7 @@ class NoteControllerAuth {
 
 	// Get notes by user
 	getNotesByUser(userId, callback) {
-		noteModelAuth
+		this.noteModelAuth
 			.getNotesByUserAPI(userId)
 			.then((response) => {
 				callback(null, response.data);
@@ -65,7 +62,7 @@ class NoteControllerAuth {
 
 	// Search note
 	searchNote(userId, title, callback) {
-		noteModelAuth
+		this.noteModelAuth
 			.searchNoteAPI(userId, title)
 			.then((response) => {
 				callback(null, response.data);
@@ -82,7 +79,7 @@ class NoteControllerAuth {
 		if (error) {
 			return callback(error);
 		}
-		noteModelAuth
+		this.noteModelAuth
 			.updateNoteAPI(id, title, content)
 			.then((response) => {
 				callback(null, response.data);
@@ -95,7 +92,7 @@ class NoteControllerAuth {
 
 	// Delete note
 	deleteNote(id, callback) {
-		noteModelAuth
+		this.noteModelAuth
 			.removeNoteAPI(id)
 			.then((response) => {
 				callback(null, response.data);
